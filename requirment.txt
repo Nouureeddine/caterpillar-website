@@ -1,0 +1,28 @@
+# Fiklar - Requirements
+# Installation: pip install -r requirements.txt
+
+# Framework web principal
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# Templates et formulaires
+Jinja2==3.1.2
+MarkupSafe==2.1.3
+
+# Gestion des formulaires (optionnel pour futures améliorations)
+Flask-WTF==1.2.1
+WTForms==3.1.0
+
+# Base de données (pour futures intégrations)
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.23
+
+# Migration de base de données (optionnel)
+Flask-Migrate==4.0.5
+
+# Email (pour l'envoi des formulaires de contact)
+Flask-Mail==0.9.1
+
+# Gestion des sessions et sécurité
+Flask-Session==0.5.0
+cryptography==41.0.7

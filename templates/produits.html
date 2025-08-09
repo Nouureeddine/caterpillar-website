@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Nos Produits - Fiklar | Pièces Industrielles Caterpillar, Doosan, Volvo{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('accueil') }}">Accueil</a></li>
+            <li class="breadcrumb-item active">Produits</li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="display-5 fw-bold mb-3">Nos Catégories de Produits</h1>
+            <p class="lead text-muted">
+                Découvrez notre large gamme de pièces détachées industrielles pour équipements 
+                <strong>Caterpillar</strong>, <strong>Doosan</strong> et <strong>Volvo</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filtres -->
+<section class="py-4 bg-white border-bottom">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5 class="mb-0">{{ categories|length }} Catégories Disponibles</h5>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary active" onclick="filterByBrand('all')">
+                        Toutes les Marques
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="filterByBrand('Caterpillar')">
+                        Caterpillar
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="filterByBrand('Doosan')">
+                        Doosan
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="filterByBrand('Volvo')">
+                        Volvo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Grille des Produits -->
+<section class="py-5">
+    <div class="container">
+        <div class="row" id="products-grid">
+            {% for categorie in categories %}
+            <div class="col-lg-4 col-md-6 mb-4 product-item" data-brands="{{ categorie.marques | join(',') }}">
+                <div class="card h-100">
+                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light position-relative" style="height: 250px;">
+                        <!-- Icônes par catégorie -->
+                        {% if 'Moteur' in categorie.nom %}
+                            <i class="fas fa-engine" style="font-size: 4rem; color: var(--cat-yellow);"></i>
+                        {% elif 'Hydraulique' in categorie.nom %}
+                            <i class="fas fa-tint" style="font-size: 4rem; color: var(--cat-orange);"></i>
+                        {% elif 'Injection' in categorie.nom %}
+                            <i class="fas fa-syringe" style="font-size: 4rem; color: var(--cat-black);"></i>
+                        {% elif 'Valve' in categorie.nom %}
+                            <i class="fas fa-valve" style="font-size: 4rem; color: var(--cat-yellow);"></i>
+                        {% elif 'Train' in categorie.nom %}
+                            <i class="fas fa-cogs" style="font-size: 4rem; color: var(--cat-orange);"></i>
+                        {% else %}
+                            <i class="fas fa-filter" style="font-size: 4rem; color: var(--cat-black);"></i>
+                        {% endif %}
+                        
+                        <!-- Badge de catégorie -->
+                        <div class="position-absolute top-0 start-0 m-2">
+                            <span class="badge bg-primary">{{ categorie.marques|length }} Marques</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">{{ categorie.nom }}</h5>
+                        <p class="card-text text-muted flex-grow-1">{{ categorie.description }}</p>
+                        
+                        <!-- Marques supportées -->
+                        <div class="mb-3">
+                            <small class="text-muted"><strong>Marques:</strong></small>
+                            <div class="mt-1">
+                                {% for marque in categorie.marques %}
+                                <span class="badge bg-light text-dark border me-1">{{ marque }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Exemples de produits -->
+                        <div class="mb-3">
+                            <small class="text-muted"><strong>Exemples:</strong></small>
+                            <ul class="list-unstyled mt-1">
+                                {% for exemple in categorie.exemples[:3] %}
+                                <li class="small text-muted">
+                                    <i class="fas fa-check text-success me-1"></i>{{ exemple }}
+                                </li>
+                                {% endfor %}
+                                {% if categorie.exemples|length > 3 %}
+                                <li class="small text-muted">
+                                    <i class="fas fa-ellipsis-h me-1"></i>Et bien plus...
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <a href="{{ url_for('categorie_produit', categorie_id=categorie.id) }}" class="btn btn-primary w-100">
+                                <i class="fas fa-eye me-2"></i>Voir les Produits
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-3">Vous ne trouvez pas ce que vous cherchez ?</h3>
+                <p class="lead text-muted mb-4">
+                    Notre équipe d'experts peut vous aider à trouver la pièce exacte dont vous avez besoin. 
+                    Contactez-nous avec la référence de votre équipement.
+                </p
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-phone me-2"></i>Nous Contacter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterByBrand(brand) {
+    const items = document.querySelectorAll('.product-item');
+    const buttons = document.querySelectorAll('.btn-group .btn');
+    
+    // Reset button states
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    items.forEach(item => {
+        const brands = item.dataset.brands.split(',');
+        if (brand === 'all' || brands.includes(brand)) {
+            item.style.display = 'block';
+            // Smooth animation
+            item.style.opacity = '0';
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transition = 'opacity 0.3s ease';
+            }, 100);
+        } else {
+            item.style.opacity = '0';
+            setTimeout(() => {
+                item.style.display = 'none';
+            }, 300);
+        }
+    });
+}
+
+// Animation on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.product-item .card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s ease';
+        card.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(card);
+    });
+});
+</script>
+{% endblock %}
