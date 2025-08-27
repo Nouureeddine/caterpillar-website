@@ -1,267 +1,1341 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiklar - Équipements Industriels & Pièces Détachées | Caterpillar, Doosan, Volvo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Swiper CSS for carousels -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css') }}">
+    <style>
+        :root {
+            --cat-yellow: #FFCD11;
+            --cat-black: #000000;
+            --cat-dark: #1A1A1A;
+            --cat-light: #F8F9FA;
+            --cat-gray: #6B7280;
+            --cat-white: #FFFFFF;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
 
-{% block title %}Fiklar - Votre Partenaire Industriel de Confiance | Pièces Caterpillar, Doosan, Volvo{% endblock %}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-{% block description %}Fiklar, spécialiste des pièces détachées industrielles Caterpillar, Doosan et Volvo à Marrakech. Moteurs, hydraulique, injection, valves. Expédition dans tout le Maroc.{% endblock %}
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--cat-dark);
+            background: var(--cat-white);
+        }
 
-{% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 hero-content">
-                <h1 class="display-4 fw-bold mb-4">
-                    <span style="color: var(--cat-yellow);">FIKLAR</span><br>
-                    Votre Partenaire Industriel de Confiance
-                </h1>
-                <p class="lead mb-4">
-                    Spécialiste des pièces détachées industrielles pour équipements <strong>Caterpillar</strong>, <strong>Doosan</strong> et <strong>Volvo</strong>. 
-                    Basés à Marrakech, nous livrons dans tout le Maroc et à l'international.
-                </p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <a href="{{ url_for('produits') }}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-box me-2"></i>Voir nos Produits
-                    </a>
-                    <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-phone me-2"></i>Nous Contacter
-                    </a>
+        /* Header & Navigation */
+        .navbar {
+            background: var(--cat-white);
+            box-shadow: var(--shadow-light);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--cat-black);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--cat-yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--cat-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--cat-yellow);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cat-yellow);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(26,26,26,0.8) 50%, rgba(255,205,17,0.1) 100%),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect width="1200" height="600" fill="%23333"/><rect x="0" y="0" width="400" height="200" fill="%23444"/><rect x="500" y="100" width="300" height="150" fill="%23555"/><rect x="900" y="50" width="250" height="180" fill="%23666"/><circle cx="200" cy="400" r="50" fill="%23777"/><circle cx="600" cy="450" r="30" fill="%23888"/><text x="600" y="320" text-anchor="middle" fill="%23999" font-size="24">INDUSTRIAL EQUIPMENT</text></svg>');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--cat-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,205,17,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+            animation: heroFadeIn 1.2s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero h1 span {
+            color: var(--cat-yellow);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--cat-yellow);
+            color: var(--cat-black);
+            border-color: var(--cat-yellow);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--cat-yellow);
+            border-color: var(--cat-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 205, 17, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--cat-white);
+            border-color: var(--cat-white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cat-white);
+            color: var(--cat-black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--cat-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--cat-yellow);
+            border-radius: 2px;
+        }
+
+        /* Story Section */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-text h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cat-black);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .story-text h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--cat-yellow);
+            border-radius: 2px;
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--cat-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-image {
+            background: linear-gradient(135deg, rgba(255,205,17,0.1) 0%, rgba(0,0,0,0.05) 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px dashed var(--cat-yellow);
+        }
+
+        .story-image i {
+            font-size: 4rem;
+            color: var(--cat-yellow);
+            margin-bottom: 1rem;
+        }
+
+        /* Values Section */
+        .values {
+            background: var(--cat-light);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .value-card {
+            background: var(--cat-white);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 205, 17, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--cat-yellow);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .value-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--cat-yellow), #f0b90b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: var(--cat-black);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .value-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cat-black);
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: var(--cat-gray);
+            line-height: 1.7;
+        }
+
+        /* Brands Section */
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .brand-card {
+            background: var(--cat-white);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .brand-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .brand-logo {
+            font-weight: 900;
+            font-size: 2.5rem;
+            padding: 1.5rem 3rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: inline-block;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .caterpillar {
+            background: linear-gradient(135deg, var(--cat-yellow) 0%, #f0b90b 100%);
+            color: var(--cat-black);
+            box-shadow: 0 8px 25px rgba(255, 205, 17, 0.3);
+        }
+
+        .doosan {
+            background: linear-gradient(135deg, #003d7a 0%, #0056b3 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 61, 122, 0.3);
+        }
+
+        .volvo {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+        }
+
+        .brand-card:hover .brand-logo {
+            transform: scale(1.05);
+        }
+
+        .brand-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cat-black);
+            margin-bottom: 1rem;
+        }
+
+        .brand-card p {
+            color: var(--cat-gray);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .brands-cta {
+            text-align: center;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, var(--cat-black) 0%, var(--cat-dark) 100%);
+            color: var(--cat-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="1" fill="rgba(255,205,17,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,205,17,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,205,17,0.1);
+            box-shadow: 0 20px 40px rgba(255, 205, 17, 0.2);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--cat-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--cat-black);
+            font-size: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--cat-yellow);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover .stat-number {
+            transform: scale(1.1);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-form {
+            background: var(--cat-white);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--cat-black);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cat-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 205, 17, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-info {
+            background: var(--cat-light);
+            padding: 3rem;
+            border-radius: 15px;
+        }
+
+        .contact-info h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cat-black);
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--cat-white);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .contact-item i {
+            width: 50px;
+            height: 50px;
+            background: var(--cat-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--cat-black);
+            font-size: 1.2rem;
+        }
+
+        .contact-item div {
+            flex: 1;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: var(--cat-black);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item span {
+            color: var(--cat-gray);
+        }
+
+        .map-container {
+            grid-column: 1 / -1;
+            margin-top: 3rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .map-placeholder {
+            background: linear-gradient(135deg, rgba(255,205,17,0.1) 0%, rgba(0,0,0,0.05) 100%);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cat-gray);
+            font-size: 1.2rem;
+            border: 2px dashed var(--cat-yellow);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--cat-black);
+            color: var(--cat-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--cat-yellow);
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--cat-yellow);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cat-white);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--cat-yellow);
+            color: var(--cat-black);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .certifications {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .cert-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(255,205,17,0.1);
+            border: 1px solid rgba(255,205,17,0.3);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--cat-yellow);
+        }
+
+        /* Animations */
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--cat-black);
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--cat-white);
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-medium);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .story-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .values-grid,
+            .brands-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .certifications {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-container,
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .contact-form,
+            .contact-info {
+                padding: 2rem;
+            }
+
+            .value-card,
+            .brand-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">FIK<span>LAR</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#about">À Propos</a></li>
+                <li><a href="{{ url_for('produits') }}">Produits</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="hero">
+        <div class="hero-content">
+            <h1 class="typing" data-typing-target="Équipements Industriels Premium|Pièces Détachées d’Origine|Solutions Pour Travaux Publics">Équipements Industriels <span>Premium</span></h1>
+            <p>Votre partenaire de confiance pour les pièces détachées et équipements Caterpillar, Doosan et Volvo</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('produits') }}" class="btn btn-primary">
+                    <i class="fas fa-cogs"></i>
+                    Voir Nos Produits
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-calculator"></i>
+                    Demander un Devis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel: Nos Solutions en Action -->
+    <section class="section" id="solutions">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Nos Solutions en Action</h2>
+            <div class="swiper solutions-swiper animate-on-scroll">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='images/slide1.svg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='images/slide2.svg') }}" alt="Pelle hydraulique en action" loading="lazy"/>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='images/slide3.svg') }}" alt="Camion de chantier Doosan" loading="lazy"/>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='images/slide4.svg') }}" alt="Niveauuse Volvo Construction" loading="lazy"/>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="story-grid animate-on-scroll">
+                <div class="story-text">
+                    <h3>Excellence & Innovation Depuis 2013</h3>
+                    <p>Basée à <strong>Marrakech</strong>, Fiklar s'est imposée comme leader dans la distribution d'équipements industriels de haute qualité au Maroc et à l'international.</p>
+                    <p>Nous sommes spécialisés dans les pièces détachées et équipements pour les secteurs des <strong>travaux publics</strong>, <strong>mines</strong>, <strong>carrières</strong> et <strong>agriculture</strong>.</p>
+                    <p>Notre expertise couvre les marques les plus prestigieuses : Caterpillar, Doosan et Volvo Construction Equipment.</p>
+                </div>
+                <div class="story-image image-side slide-in-right">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="FIKLAR" loading="lazy">
+                    <div class="image-caption">
+                        <h4>FIKLAR</h4>
+                        <p>Équipements & Pièces Industrielles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="section values">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Nos Valeurs Fondamentales</h2>
+            <div class="values-grid">
+                <div class="value-card animate-on-scroll">
+                    <div class="value-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4>Excellence Technique</h4>
+                    <p>Sélection rigoureuse des produits selon les plus hauts standards industriels internationaux.</p>
+                </div>
+                <div class="value-card animate-on-scroll">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Partenariat Durable</h4>
+                    <p>Relations basées sur la transparence, la confiance et le respect de nos engagements clients.</p>
+                </div>
+                <div class="value-card animate-on-scroll">
+                    <div class="value-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4>Réactivité 24/7</h4>
+                    <p>Réponse rapide aux demandes urgentes avec livraisons express partout au Maroc et à l'international.</p>
+                </div>
+                <div class="value-card animate-on-scroll">
+                    <div class="value-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h4>Portée Mondiale</h4>
+                    <p>De Marrakech vers le monde entier, nous expédions nos équipements là où vous en avez besoin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Nos Marques Partenaires</h2>
+            <div class="brands-grid">
+                <div class="brand-card animate-on-scroll">
+                    <div class="brand-logo caterpillar">CAT</div>
+                    <h4>Caterpillar Inc.</h4>
+                    <p>Leader mondial des équipements de construction et d'exploitation minière. Gamme complète de pièces détachées et équipements neufs et d'occasion.</p>
+                    
+                </div>
+                <div class="brand-card animate-on-scroll">
+                    <div class="brand-logo doosan">DOOSAN</div>
+                    <h4>Doosan Heavy Industries</h4>
+                    <p>Spécialiste coréen des équipements lourds offrant des solutions innovantes pour l'industrie et la construction moderne.</p>
+                    
+                </div>
+                <div class="brand-card animate-on-scroll">
+                    <div class="brand-logo volvo">VOLVO</div>
+                    <h4>Volvo Construction Equipment</h4>
+                    <p>Référence suédoise en matière de qualité et durabilité, équipant les plus grands chantiers mondiaux.</p>
+                </div>
+            </div>
+            <div class="brands-cta animate-on-scroll">
+                <a href="#contact" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 40px;">
+                    <i class="fas fa-search"></i>
+                    Découvrir Tous Nos Produits
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section stats">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" style="color: var(--cat-yellow);">Fiklar en Chiffres</h2>
+            <div class="stats-grid">
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">Années d'Excellence</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">Clients Satisfaits</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div class="stat-number" data-target="1000">0</div>
+                    <div class="stat-label">Références Produits</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">Heures de Réponse Max</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Contactez-Nous</h2>
+            <div class="contact-grid">
+                <div class="contact-form animate-on-scroll">
+                    <h4>Demander un Devis</h4>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nom & Prénom *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Professionnel *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Entreprise</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Votre Demande *</label>
+                            <textarea id="message" name="message" required placeholder="Décrivez vos besoins en équipements ou pièces détachées..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer la Demande
+                        </button>
+                    </form>
                 </div>
                 
-                <!-- Stats -->
-                <div class="row mt-5">
-                    <div class="col-4">
-                        <div class="text-center">
-                            <h3 class="fw-bold" style="color: var(--cat-yellow);">3</h3>
-                            <small>Marques Premium</small>
+                <div class="contact-info animate-on-scroll">
+                    <h4>Nos Coordonnées</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>Adresse</strong>
+                            <span>Zone Industrielle Sidi Ghanem<br>Marrakech 40000, Maroc</span>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="text-center">
-                            <h3 class="fw-bold" style="color: var(--cat-yellow);">24h</h3>
-                            <small>Réponse Garantie</small>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Téléphone</strong>
+                            <span>+212 5 24 33 XX XX</span>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="text-center">
-                            <h3 class="fw-bold" style="color: var(--cat-yellow);">100%</h3>
-                            <small>Pièces Originales</small>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Email</strong>
+                            <span>contact@fiklar.ma</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <strong>Horaires</strong>
+                            <span>Lun-Ven: 8h-18h<br>Sam: 8h-12h</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <strong>WhatsApp Business</strong>
+                            <span>+212 6 XX XX XX XX</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                <div class="position-relative">
-                    <div class="bg-warning rounded-circle d-inline-block p-5" style="opacity: 0.1; transform: scale(2);"></div>
-                    <div class="position-absolute top-50 start-50 translate-middle">
-                        <i class="fas fa-industry" style="font-size: 8rem; color: var(--cat-yellow); opacity: 0.8;"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Nos Marques -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title">Nos Marques Partenaires</h2>
-            <p class="lead text-muted">Des marques de référence mondiale dans l'industrie</p>
+                <div class="map-container animate-on-scroll" id="map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13367.72730867363!2d-8.0410!3d31.6506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafec59b3f1c1c9%3A0x0000000000000000!2sZone%20Industrielle%20Sidi%20Ghanem%2C%20Marrakech!5e0!3m2!1sfr!2sma!4v1700000000000"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Fiklar Marrakech - Zone Industrielle Sidi Ghanem">
+                    </iframe>
+                </div>
+            </div>
         </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FIKLAR</h4>
+                    <p>Votre partenaire industriel de confiance pour les équipements et pièces détachées de marques premium.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="#">Pièces Détachées CAT</a></li>
+                        <li><a href="#">Équipements DOOSAN</a></li>
+                        <li><a href="#">Solutions VOLVO</a></li>
+                        <li><a href="#">Maintenance Industrielle</a></li>
+                        <li><a href="#">Support Technique</a></li>
+                        <li><a href="#">Livraison Express</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Secteurs d'Activité</h4>
+                    <ul>
+                        <li><a href="#">Travaux Publics</a></li>
+                        <li><a href="#">Mines & Carrières</a></li>
+                        <li><a href="#">Agriculture</a></li>
+                        <li><a href="#">Industrie</a></li>
+                        <li><a href="#">Transport & Logistique</a></li>
+                        <li><a href="#">Énergie & Utilities</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Rapide</h4>
+                    <p><i class="fas fa-phone" style="color: var(--cat-yellow); margin-right: 0.5rem;"></i> +212 5 24 33 XX XX</p>
+                    <p><i class="fas fa-envelope" style="color: var(--cat-yellow); margin-right: 0.5rem;"></i> contact@fiklar.ma</p>
+                    <p><i class="fas fa-map-marker-alt" style="color: var(--cat-yellow); margin-right: 0.5rem;"></i> Marrakech, Maroc</p>
+                    <p><i class="fab fa-whatsapp" style="color: var(--cat-yellow); margin-right: 0.5rem;"></i> WhatsApp Business</p>
+                </div>
+            </div>
+            
+            <div class="certifications">
+                <span class="cert-badge">
+                    <i class="fas fa-certificate"></i> Distributeur Agréé
+                </span>
+                <span class="cert-badge">
+                    <i class="fas fa-shield-alt"></i> Qualité ISO
+                </span>
+                <span class="cert-badge">
+                    <i class="fas fa-truck"></i> Livraison Garantie
+                </span>
+                <span class="cert-badge">
+                    <i class="fas fa-tools"></i> Support 24/7
+                </span>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 FIKLAR. Tous droits réservés. | Équipements Industriels Premium | Marrakech, Maroc</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- GSAP (optional for smoother animations) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <!-- Page specific JS -->
+    <script src="{{ url_for('static', filename='js/accueil.js') }}"></script>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
         
-        <div class="row text-center">
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="mb-3">
-                            <i class="fas fa-tractor" style="font-size: 3rem; color: var(--cat-yellow);"></i>
-                        </div>
-                        <h4 class="fw-bold">Caterpillar</h4>
-                        <p class="text-muted">Leader mondial des équipements de construction et d'exploitation minière</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="mb-3">
-                            <i class="fas fa-truck-monster" style="font-size: 3rem; color: var(--cat-orange);"></i>
-                        </div>
-                        <h4 class="fw-bold">Doosan</h4>
-                        <p class="text-muted">Fabricant coréen reconnu pour ses excavateurs et équipements industriels</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="mb-3">
-                            <i class="fas fa-hard-hat" style="font-size: 3rem; color: #0066CC;"></i>
-                        </div>
-                        <h4 class="fw-bold">Volvo</h4>
-                        <p class="text-muted">Innovation suédoise en matière d'équipements de construction durables</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
 
-<!-- Catégories Principales -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title">Nos Principales Catégories</h2>
-            <p class="lead text-muted">Des pièces de qualité pour tous vos besoins industriels</p>
-        </div>
-        
-        <div class="row">
-            {% for categorie in categories_principales %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
-                        {% if loop.index == 1 %}
-                            <i class="fas fa-engine" style="font-size: 4rem; color: var(--cat-yellow);"></i>
-                        {% elif loop.index == 2 %}
-                            <i class="fas fa-tint" style="font-size: 4rem; color: var(--cat-orange);"></i>
-                        {% else %}
-                            <i class="fas fa-syringe" style="font-size: 4rem; color: var(--cat-black);"></i>
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">{{ categorie.nom }}</h5>
-                        <p class="card-text text-muted">{{ categorie.description }}</p>
-                        <div class="mb-3">
-                            <small class="text-muted">
-                                <strong>Marques:</strong> {{ categorie.marques | join(', ') }}
-                            </small>
-                        </div>
-                        <a href="{{ url_for('categorie_produit', categorie_id=categorie.id) }}" class="btn btn-outline-primary">
-                            <i class="fas fa-arrow-right me-1"></i>Voir la Catégorie
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        
-        <div class="text-center mt-4">
-            <a href="{{ url_for('produits') }}" class="btn btn-primary btn-lg">
-                <i class="fas fa-th-large me-2"></i>Voir Toutes les Catégories
-            </a>
-        </div>
-    </div>
-</section>
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            });
+        });
 
-<!-- Pourquoi Nous Choisir -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title">Pourquoi Choisir Fiklar ?</h2>
-            <p class="lead text-muted">Des services professionnels adaptés à vos besoins industriels</p>
-        </div>
-        
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="text-center">
-                    <div class="mb-3">
-                        <i class="fas fa-certificate" style="font-size: 3rem; color: var(--cat-yellow);"></i>
-                    </div>
-                    <h5 class="fw-bold">Pièces Originales</h5>
-                    <p class="text-muted">Garantie d'authenticité et de qualité pour toutes nos pièces détachées</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="text-center">
-                    <div class="mb-3">
-                        <i class="fas fa-shipping-fast" style="font-size: 3rem; color: var(--cat-orange);"></i>
-                    </div>
-                    <h5 class="fw-bold">Livraison Rapide</h5>
-                    <p class="text-muted">Expédition dans tout le Maroc et à l'international sous 48h</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="text-center">
-                    <div class="mb-3">
-                        <i class="fas fa-users" style="font-size: 3rem; color: var(--cat-black);"></i>
-                    </div>
-                    <h5 class="fw-bold">Expertise Technique</h5>
-                    <p class="text-muted">Une équipe d'experts pour vous conseiller et vous accompagner</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="text-center">
-                    <div class="mb-3">
-                        <i class="fas fa-handshake" style="font-size: 3rem; color: var(--cat-yellow);"></i>
-                    </div>
-                    <h5 class="fw-bold">Service Client</h5>
-                    <p class="text-muted">Support client réactif disponible 6j/7 pour répondre à vos questions</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(248, 249, 250, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.background = 'var(--cat-white)';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
 
-<!-- Call to Action -->
-<section class="py-5" style="background: linear-gradient(135deg, var(--cat-black), var(--cat-dark-gray)); color: white;">
-    <div class="container text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="fw-bold mb-3">Prêt à Commander vos Pièces ?</h2>
-                <p class="lead mb-4">
-                    Contactez notre équipe d'experts pour obtenir un devis personnalisé 
-                    ou demandez des informations sur nos produits disponibles.
-                </p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="https://wa.me/212600000000" class="btn btn-outline-primary btn-lg">
-                        <i class="fab fa-whatsapp me-2"></i>WhatsApp
-                    </a>
-                    <a href="tel:+212600000000" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-phone me-2"></i>Appeler
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        // Animation on Scroll
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animated');
+                    }, index * 100);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
 
-<!-- Témoignages / Zone d'info -->
-<section class="py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4">
-                <h3 class="fw-bold mb-3">Basés à Marrakech, Présents Partout</h3>
-                <p class="text-muted mb-4">
-                    Depuis notre base logistique de Marrakech, nous desservons l'ensemble du Maroc 
-                    et exportons vers l'Afrique et l'Europe. Notre expertise locale et notre réseau 
-                    international nous permettent de répondre rapidement à vos besoins.
-                </p>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Livraison partout au Maroc</li>
-                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Export international</li>
-                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Stock permanent disponible</li>
-                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Devis gratuit sous 24h</li>
-                </ul>
-            </div>
-            <div class="col-lg-6">
-                <div class="card border-0 shadow">
-                    <div class="card-body p-4">
-                        <div class="text-center mb-4">
-                            <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--cat-orange);"></i>
-                        </div>
-                        <h5 class="text-center fw-bold mb-3">Notre Localisation</h5>
-                        <div class="text-center">
-                            <p class="mb-2"><strong>Marrakech, Maroc</strong></p>
-                            <p class="text-muted mb-3">Zone industrielle Sidi Ghanem</p>
-                            <a href="https://maps.google.com/?q=Marrakech+Maroc" target="_blank" class="btn btn-outline-primary">
-                                <i class="fas fa-map me-1"></i>Voir sur Google Maps
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
 
-{% endblock %}
+        // Animated Counter for Stats
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 24 ? '' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (target === 24 ? '' : '+');
+                }
+            }, 20);
+        }
+
+        // Stats Animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const target = parseInt(stat.getAttribute('data-target'));
+                        animateCounter(stat, target);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Contact Form Handling
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation and submission simulation
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Show success message (in real implementation, send to server)
+            alert('Merci pour votre demande ! Nous vous contacterons dans les 24 heures.');
+            this.reset();
+        });
+
+        // Add loading states for better UX
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+            
+            // Preload important images and resources
+            const heroBackground = new Image();
+            heroBackground.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect width="1200" height="600" fill="%23333"/></svg>';
+        });
+
+        // Initialize Swiper (Solutions)
+        const solutionsSwiper = new Swiper('.solutions-swiper', {
+            loop: true,
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            effect: 'fade',
+            speed: 800,
+            pagination: { el: '.solutions-swiper .swiper-pagination', clickable: true },
+            navigation: { nextEl: '.solutions-swiper .swiper-button-next', prevEl: '.solutions-swiper .swiper-button-prev' },
+        });
+
+        // Lazy loading for performance optimization
+        if ('IntersectionObserver' in window) {
+            const lazyImages = document.querySelectorAll('[data-src]');
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+        }
+    </script>
+</body>
+</html>

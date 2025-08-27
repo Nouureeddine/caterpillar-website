@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700">
+  <rect width="1600" height="700" fill="#121212"/>
+  <g opacity="0.95">
+    <rect x="140" y="120" width="360" height="200" fill="#1f1f1f"/>
+    <rect x="560" y="160" width="900" height="360" fill="#1b1b1b"/>
+    <text x="1010" y="350" font-size="90" font-family="Montserrat,Arial" fill="#FFCD11" text-anchor="middle">WORK IN ACTION</text>
+  </g>
+</svg>
+
