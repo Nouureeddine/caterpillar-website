@@ -47,6 +47,45 @@ window.addEventListener('load', () => {
     });
     gsap.fromTo('.solutions-swiper', {opacity: 0, scale: 0.98}, {opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out', scrollTrigger: {trigger: '.solutions-swiper', start: 'top 85%'}});
   }
+  // Navbar shadow on scroll and active underline sync
+  const navbar = document.querySelector('.navbar');
+  const links = document.querySelectorAll('.nav-links a');
+  const setScrolled = () => {
+    if (!navbar) return;
+    if (window.scrollY > 10) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  };
+  setScrolled();
+  window.addEventListener('scroll', setScrolled);
+
+  // Smooth scroll for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target){
+        e.preventDefault();
+        target.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+    });
+  });
 });
+
+// IntersectionObserver fallback animations for category cards and generic elements
+(function(){
+  const els = document.querySelectorAll('.animate-on-scroll');
+  if (!('IntersectionObserver' in window) || els.length === 0) return;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if (entry.isIntersecting){
+        entry.target.classList.add('animated');
+        io.unobserve(entry.target);
+      }
+    })
+  }, {threshold: 0.15});
+  els.forEach(el=>io.observe(el));
+})();
 
 

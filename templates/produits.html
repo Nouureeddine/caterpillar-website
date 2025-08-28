@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos Produits - Fiklar | Pièces Industrielles</title>
+    <title>Catalogue Complet - Fiklar | Pièces Industrielles</title>
+    <meta name="description" content="Catalogue complet Fiklar: pièces détachées Caterpillar, Doosan, Volvo. Systèmes carburant, hydraulique, refroidissement, turbo, filtres, transmission.">
+    <link rel="canonical" href="{{ canonical_url() }}">
+    <meta property="og:title" content="Catalogue Fiklar - Pièces Industrielles">
+    <meta property="og:description" content="Découvrez nos catégories de pièces industrielles pour engins TP et agricoles.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url() }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/logo.png', _external=True) }}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Catalogue Fiklar",
+      "url": "{{ canonical_url() }}",
+      "about": "Pièces industrielles Caterpillar, Doosan, Volvo"
+    }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -100,53 +116,6 @@
             width: 100%;
         }
 
-        /* Breadcrumb */
-        .breadcrumb-section {
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(26,26,26,0.8) 50%, rgba(255,205,17,0.1) 100%),
-                        var(--cat-dark);
-            padding: 8rem 0 2rem;
-            margin-top: 80px;
-            color: var(--cat-white);
-            position: relative;
-        }
-
-        .breadcrumb-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="1" fill="rgba(255,205,17,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .breadcrumb {
-            background: transparent;
-            margin-bottom: 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        .breadcrumb-item a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .breadcrumb-item a:hover {
-            color: var(--cat-yellow);
-        }
-
-        .breadcrumb-item.active {
-            color: var(--cat-yellow);
-        }
-
-        .breadcrumb-item + .breadcrumb-item::before {
-            color: rgba(255, 255, 255, 0.6);
-            content: ">";
-        }
-
         /* Container */
         .container {
             max-width: 1400px;
@@ -232,26 +201,28 @@
             font-weight: 300;
         }
 
-        /* Product Cards - New Design */
-        .products-grid {
+        /* Category Cards - New Design */
+        .categories-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
             margin-bottom: 4rem;
         }
 
-        .product-card {
+        .category-card {
             background: var(--cat-white);
             border: 3px solid transparent;
-            border-radius: 0;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow-medium);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            max-height: 420px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .product-card::before {
+        .category-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -264,19 +235,19 @@
             transition: transform 0.4s ease;
         }
 
-        .product-card:hover {
-            transform: translateY(-8px);
+        .category-card:hover {
+            transform: translateY(-12px);
             box-shadow: var(--shadow-large);
             border-color: var(--cat-yellow);
         }
 
-        .product-card:hover::before {
+        .category-card:hover::before {
             transform: scaleX(1);
         }
 
-        .product-image {
-            height: 180px;
-            background: linear-gradient(135deg, var(--cat-dark) 0%, #2a2a2a  100%);
+        .category-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--cat-dark) 0%, #2a2a2a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -284,7 +255,7 @@
             overflow: hidden;
         }
 
-        .product-image::after {
+        .category-image::after {
             content: '';
             position: absolute;
             top: 0;
@@ -296,28 +267,12 @@
             transition: transform 0.6s ease;
         }
 
-        .product-card:hover .product-image::after {
+        .category-card:hover .category-image::after {
             transform: translateX(100%);
         }
 
-        /* For actual images - replace the <i> tag with <img> */
-        .product-image img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            transition: all 0.3s ease;
-            z-index: 2;
-            position: relative;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        /* Keep this for fallback icons */
-        .product-image i {
-            font-size: 3.5rem;
+        .category-image i {
+            font-size: 4rem;
             color: var(--cat-yellow);
             transition: all 0.3s ease;
             z-index: 2;
@@ -325,83 +280,93 @@
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
 
-        .product-card:hover .product-image i {
+        .category-card:hover .category-image i {
             transform: scale(1.15);
             color: #f0b90b;
         }
 
-        .product-content {
-            padding: 2rem 1.8rem;
+        .category-content {
+            padding: 2rem;
             background: var(--cat-white);
             position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .product-content::before {
+        .category-content::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 1.8rem;
-            right: 1.8rem;
+            left: 2rem;
+            right: 2rem;
             height: 1px;
             background: linear-gradient(90deg, transparent 0%, var(--cat-yellow) 50%, transparent 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .product-card:hover .product-content::before {
+        .category-card:hover .category-content::before {
             opacity: 1;
         }
 
-        .product-title {
-            font-size: 1.3rem;
+        .category-title {
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--cat-black);
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             line-height: 1.3;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .product-description {
+        .category-description {
             color: var(--cat-gray);
             line-height: 1.6;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 400;
-            display: -webkit-box;
-            line-clamp: 3;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-bottom: 1.5rem;
+            flex: 1;
         }
 
-        /* Category Sections */
-        .category-section {
-            margin-bottom: 6rem;
-        }
-
-        .category-section:nth-child(even) {
-            background: var(--cat-light);
-            margin-left: -2rem;
-            margin-right: -2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            padding-top: 4rem;
-            padding-bottom: 4rem;
-            border-radius: 0;
-        }
-
-        /* Subsection Titles */
-        .subsection-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--cat-dark);
-            margin-bottom: 2rem;
-            margin-top: 3rem;
-            padding-left: 1rem;
-            border-left: 4px solid var(--cat-yellow);
+        .category-stats {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--cat-gray);
+        }
+
+        .category-stats span {
+            background: var(--cat-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .btn-category {
+            background: var(--cat-yellow);
+            color: var(--cat-black);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .btn-category:hover {
+            background: #f0b90b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 205, 17, 0.3);
+            color: var(--cat-black);
         }
 
         /* CTA Sections */
@@ -573,18 +538,13 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .products-hero { padding: 6.5rem 0 7rem; }
-            .products-hero h1 { font-size: 3.2rem; }
-            .products-hero p { font-size: 1.2rem; max-width: 680px; }
-            .products-grid { grid-template-columns: repeat(2, 1fr); }
+        @media (max-width: 1200px) {
+            .categories-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
             .products-hero { padding: 5rem 0 5.5rem; }
-            .mobile-menu-btn {
-                display: block;
-            }
+            .mobile-menu-btn { display: block; }
 
             .nav-links {
                 display: none;
@@ -598,12 +558,9 @@
                 box-shadow: var(--shadow-medium);
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+            .nav-links.active { display: flex; }
 
             .products-hero h1 { font-size: 2.4rem; }
-
             .products-hero { padding: 4rem 0; }
 
             .section-title {
@@ -618,16 +575,18 @@
                 flex: none;
             }
 
-            .products-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .categories-grid { 
+                grid-template-columns: 1fr; 
+                gap: 2rem; 
+            }
 
-            .product-card {
+            .category-card {
                 margin: 0 auto;
                 max-width: 400px;
+                height: 380px;
             }
 
-            .cta-content h3 {
-                font-size: 2rem;
-            }
+            .cta-content h3 { font-size: 2rem; }
 
             .cta-buttons {
                 flex-direction: column;
@@ -639,53 +598,30 @@
                 text-align: center;
             }
 
-            .category-section:nth-child(even) {
-                margin-left: -1rem;
-                margin-right: -1rem;
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
+            .container { padding: 0 1rem; }
 
-            .container {
-                padding: 0 1rem;
-            }
-
-            .breadcrumb-section {
-                padding: 6rem 0 2rem;
-            }
-
-            .nav-container {
-                padding: 1rem;
-            }
+            .nav-container { padding: 1rem; }
         }
 
         @media (max-width: 480px) {
             .products-hero h1 { font-size: 2.1rem; }
+            .products-hero p { font-size: 1.1rem; }
 
-            .products-hero p {
-                font-size: 1.1rem;
-            }
+            .category-content { padding: 1.5rem; }
 
-            .product-content {
-                padding: 2rem 1.5rem;
-            }
-
-            .btn {
-                padding: 15px 30px;
-                font-size: 1rem;
-            }
+            .btn { padding: 15px 30px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation (same as accueil) -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('accueil') }}" class="logo">FIK<span>LAR</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="{{ url_for('accueil') }}#accueil">Accueil</a></li>
                 <li><a href="{{ url_for('accueil') }}#about">À Propos</a></li>
-                <li><a href="{{ url_for('produits') }}">Produits</a></li>
+                <li><a href="{{ url_for('produits') }}">Catalogue Complet</a></li>
                 <li><a href="{{ url_for('accueil') }}#contact">Contact</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -694,303 +630,215 @@
         </div>
     </nav>
 
-    
-
     <!-- Hero Section -->
     <section class="products-hero">
         <div class="container">
-            <h1>Notre Catalogue <span>Complet</span></h1>
-            <p>Découvrez notre large gamme de pièces détachées industrielles premium pour tous types d'équipements lourds</p>
+            <h1>Nos Catégories de <span>Produits</span></h1>
+            <p>Découvrez notre gamme complète de pièces détachées industrielles organisées par catégories spécialisées</p>
         </div>
     </section>
 
     <!-- Main Content -->
     <main>
-        <!-- 1. Système de carburant -->
-        <section class="section category-section">
+        <!-- Categories Section -->
+        <section class="section">
             <div class="container">
                 <h2 class="section-title animate-fade-in">
-                    <i class="fas fa-gas-pump" style="color: var(--cat-yellow);"></i>
-                    Système de Carburant
+                    <i class="fas fa-th-large" style="color: var(--cat-yellow);"></i>
+                    Catalogue par Catégories
                 </h2>
-                <p class="section-subtitle animate-fade-in">Solutions complètes pour l'alimentation et l'injection de carburant</p>
+                <p class="section-subtitle animate-fade-in">Explorez nos spécialités et trouvez rapidement les pièces dont vous avez besoin</p>
                 
-                <!-- Injecteur / Nozzle -->
-                <h3 class="subsection-title animate-fade-in">
-                    <i class="fas fa-spray-can"></i>
-                    Injecteurs & Nozzles
-                </h3>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-wrench"></i>
+                <div class="categories-grid">
+                    <!-- 1. Système de carburant -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-gas-pump"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Coil Gp</h4>
-                            <p class="product-description">Bobine d'allumage haute performance. Génère l'étincelle nécessaire au démarrage avec une fiabilité exceptionnelle.</p>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-syringe"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Injecteur Standard</h4>
-                            <p class="product-description">Injecteur haute performance pour moteurs industriels. Précision d'injection optimale pour un rendement énergétique supérieur.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Système de Carburant</h3>
+                            <p class="category-description">Solutions complètes pour l'alimentation et l'injection de carburant. Injecteurs, pompes, et composants de précision pour moteurs industriels.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Haute performance</span>
+                            </div>
+                            <a href="/categorie/carburant" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-spray-can"></i>
+                    <!-- 2. Capteurs et électronique moteur -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-microchip"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Nozzle Haute Pression</h4>
-                            <p class="product-description">Buse d'injection précise pour rendement optimal. Conçue pour résister aux pressions extrêmes et garantir une longue durée de vie.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pompes -->
-                <h3 class="subsection-title animate-fade-in">
-                    <i class="fas fa-cog"></i>
-                    Pompes de Carburant
-                </h3>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-cog"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Fuel Injection Pump</h4>
-                            <p class="product-description">Pompe d'injection haute pression pour moteurs diesel. Technologie avancée garantissant une injection précise et uniforme.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Capteurs & Électronique</h3>
+                            <p class="category-description">Systèmes de surveillance et de contrôle électronique de pointe. Capteurs de température, pression, vitesse et modules de contrôle.</p>
+                            <div class="category-stats">
+                                <span>6 produits</span>
+                                <span>Technologie avancée</span>
+                            </div>
+                            <a href="/categorie/electronique" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-pump-medical"></i>
+                    <!-- 3. Système de refroidissement -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-snowflake"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Fuel Priming Pump</h4>
-                            <p class="product-description">Pompe d'amorçage pour démarrage fiable. Assure une alimentation constante en carburant même dans les conditions les plus difficiles.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. Capteurs et électronique moteur -->
-        <section class="section category-section">
-            <div class="container">
-                <h2 class="section-title animate-fade-in">
-                    <i class="fas fa-microchip" style="color: var(--cat-yellow);"></i>
-                    Capteurs et Électronique Moteur
-                </h2>
-                <p class="section-subtitle animate-fade-in">Systèmes de surveillance et de contrôle électronique de pointe</p>
-                
-                <!-- Capteurs de température -->
-                <h3 class="subsection-title animate-fade-in">
-                    <i class="fas fa-thermometer-half"></i>
-                    Capteurs de Température
-                </h3>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-thermometer-half"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Capteur Température Eau</h4>
-                            <p class="product-description">Surveillance précise de la température du liquide de refroidissement. Protection contre la surchauffe avec alertes en temps réel.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Système de Refroidissement</h3>
+                            <p class="category-description">Échangeurs thermiques et composants de refroidissement haute efficacité. Radiateurs eau et huile pour performance optimale.</p>
+                            <div class="category-stats">
+                                <span>2 produits</span>
+                                <span>Haute efficacité</span>
+                            </div>
+                            <a href="/categorie/refroidissement" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-temperature-high"></i>
+                    <!-- 4. Turbo et système d'air -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-fan"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Capteur Température Huile</h4>
-                            <p class="product-description">Mesure de la température d'huile moteur avec une précision exceptionnelle. Essentiel pour la maintenance préventive.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Capteurs de pression -->
-                <h3 class="subsection-title animate-fade-in">
-                    <i class="fas fa-tachometer-alt"></i>
-                    Capteurs de Pression
-                </h3>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Capteur Pression Huile</h4>
-                            <p class="product-description">Mesure précise de la pression d'huile moteur. Technologie de pointe pour une surveillance continue des paramètres critiques.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Turbo & Système d'Air</h3>
+                            <p class="category-description">Turbocompresseurs et composants de suralimentation de précision. Performance moteur optimisée et économie de carburant.</p>
+                            <div class="category-stats">
+                                <span>2 produits</span>
+                                <span>Performance optimale</span>
+                            </div>
+                            <a href="/categorie/turbo" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-gauge"></i>
+                    <!-- 5. Composants moteur & pièces de réparation -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-cogs"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Capteur Pression Carburant</h4>
-                            <p class="product-description">Surveillance de la pression du système carburant. Garantit un fonctionnement optimal et une consommation maîtrisée.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Capteurs de vitesse et Coil Gp -->
-                <h3 class="subsection-title animate-fade-in">
-                    <i class="fas fa-sync-alt"></i>
-                    Capteurs de Vitesse & Coil Gp
-                </h3>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-sync-alt"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Capteur Vitesse Camshaft</h4>
-                            <p class="product-description">Détection précise de position arbre à cames. Synchronisation parfaite pour un fonctionnement moteur optimal.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Composants Moteur</h3>
+                            <p class="category-description">Pièces mécaniques essentielles et kits de maintenance complets. Arbres, valves, noyaux et kits de réparation professionnels.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Qualité premium</span>
+                            </div>
+                            <a href="/categorie/composants" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
+                    <!-- 6. Outils d'attaque du sol et Train de Roulement -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-shovel"></i>
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-title">Outils d'Attaque du Sol</h3>
+                            <p class="category-description">Pièces d'usure et composants de mobilité pour tous types d'engins. Dents de godet, chaînes de chenilles et galets de roulement.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Haute résistance</span>
+                            </div>
+                            <a href="/categorie/outils-sol" class="btn-category">Plus d'info</a>
+                        </div>
+                    </div>
+
+                    <!-- 7. Filtres -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-filter"></i>
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-title">Filtres</h3>
+                            <p class="category-description">Solutions de filtration premium pour tous types de fluides industriels. Filtres à huile, carburant, air et hydrauliques de haute qualité.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Filtration premium</span>
+                            </div>
+                            <a href="/categorie/filtres" class="btn-category">Plus d'info</a>
+                        </div>
+                    </div>
+
+                    <!-- 8. Système Hydraulique -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-title">Système Hydraulique</h3>
+                            <p class="category-description">Composants hydrauliques haute performance pour engins de chantier. Pompes, distributeurs, vérins et flexibles haute pression.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Haute pression</span>
+                            </div>
+                            <a href="/categorie/hydraulique" class="btn-category">Plus d'info</a>
+                        </div>
+                    </div>
+
+                    <!-- 9. Système Électrique -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
                             <i class="fas fa-bolt"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Coil Gp Électronique</h4>
-                            <p class="product-description">Bobine d'allumage électronique avancée. Optimise la combustion et réduit les émissions tout en améliorant les performances.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Système de refroidissement -->
-        <section class="section category-section">
-            <div class="container">
-                <h2 class="section-title animate-fade-in">
-                    <i class="fas fa-snowflake" style="color: var(--cat-yellow);"></i>
-                    Système de Refroidissement
-                </h2>
-                <p class="section-subtitle animate-fade-in">Échangeurs thermiques et composants de refroidissement haute efficacité</p>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-car-battery"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Radiateur Eau</h4>
-                            <p class="product-description">Échangeur thermique pour refroidissement moteur. Conception robuste garantissant une dissipation thermique optimale dans toutes les conditions.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Système Électrique</h3>
+                            <p class="category-description">Composants électriques et électroniques pour engins industriels. Moteurs de démarrage, alternateurs et modules de contrôle.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Électronique avancée</span>
+                            </div>
+                            <a href="/categorie/electrique" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-oil-can"></i>
+                    <!-- 10. Pochette des Joints -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-circle"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Radiateur Huile</h4>
-                            <p class="product-description">Refroidisseur d'huile haute efficacité. Maintient la température d'huile dans la plage optimale pour une lubrification parfaite.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Turbo et système d'air -->
-        <section class="section category-section">
-            <div class="container">
-                <h2 class="section-title animate-fade-in">
-                    <i class="fas fa-fan" style="color: var(--cat-yellow);"></i>
-                    Turbo et Système d'Air
-                </h2>
-                <p class="section-subtitle animate-fade-in">Turbocompresseurs et composants de suralimentation de précision</p>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-wind"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Turbocharger</h4>
-                            <p class="product-description">Turbocompresseur complet haute performance. Augmente la puissance moteur tout en optimisant la consommation de carburant.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Pochette des Joints</h3>
+                            <p class="category-description">Joints toriques et joints d'étanchéité de haute qualité. Étanchéité parfaite pour applications hydrauliques et pneumatiques.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Étanchéité parfaite</span>
+                            </div>
+                            <a href="/categorie/joints" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-circle-notch"></i>
+                    <!-- 11. Silentblocs -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-shield-alt"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Compressor Wheel</h4>
-                            <p class="product-description">Roue de compresseur de précision. Usinée avec une exactitude micrométrique pour des performances maximales et une longévité accrue.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Composants moteur & pièces de réparation -->
-        <section class="section category-section">
-            <div class="container">
-                <h2 class="section-title animate-fade-in">
-                    <i class="fas fa-cogs" style="color: var(--cat-yellow);"></i>
-                    Composants Moteur & Pièces de Réparation
-                </h2>
-                <p class="section-subtitle animate-fade-in">Pièces mécaniques essentielles et kits de maintenance complets</p>
-                
-                <div class="products-grid">
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Shaft</h4>
-                            <p class="product-description">Arbre de transmission haute résistance. Usiné dans des matériaux premium pour résister aux contraintes mécaniques extrêmes.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Silentblocs</h3>
+                            <p class="category-description">Amortisseurs et supports antivibratoires pour engins lourds. Réduction des vibrations et protection des composants sensibles.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Antivibratoire</span>
+                            </div>
+                            <a href="/categorie/silentblocs" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
 
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-valve"></i>
+                    <!-- 12. Transmission et Freinage -->
+                    <div class="category-card animate-fade-in">
+                        <div class="category-image">
+                            <i class="fas fa-cogs"></i>
                         </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Valve Gp</h4>
-                            <p class="product-description">Groupe valve pour système hydraulique. Contrôle précis du débit et de la pression pour un fonctionnement optimal.</p>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-cube"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Core</h4>
-                            <p class="product-description">Noyau d'échangeur thermique. Élément central assurant une transmission thermique efficace et durable.</p>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate-fade-in">
-                        <div class="product-image">
-                            <i class="fas fa-toolbox"></i>
-                        </div>
-                        <div class="product-content">
-                            <h4 class="product-title">Kit de Réparation</h4>
-                            <p class="product-description">Kit complet pour maintenance moteur. Inclut tous les composants nécessaires pour une révision complète et professionnelle.</p>
+                        <div class="category-content">
+                            <h3 class="category-title">Transmission & Freinage</h3>
+                            <p class="category-description">Composants de transmission et systèmes de freinage haute performance. Embrayages, pignons et systèmes de freinage sécurisés.</p>
+                            <div class="category-stats">
+                                <span>4 produits</span>
+                                <span>Performance maximale</span>
+                            </div>
+                            <a href="/categorie/transmission" class="btn-category">Plus d'info</a>
                         </div>
                     </div>
                 </div>
@@ -1006,13 +854,13 @@
                     <i class="fas fa-database"></i>
                     <div class="stats-text">
                         <h5>Catalogue Complet Disponible</h5>
-                        <p>Plus de 1000+ références en stock permanent</p>
+                        <p>Plus de 2000+ références en stock permanent</p>
                     </div>
                 </div>
-                <button class="btn btn-secondary">
+                <a href="/#contact" class="btn btn-secondary">
                     <i class="fas fa-list"></i>
                     Voir Toutes les Références
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -1027,7 +875,7 @@
                     Contactez-nous avec la référence de votre équipement pour un devis personnalisé.
                 </p>
                 <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-white">
+                    <a href="/#contact" class="btn btn-white">
                         <i class="fas fa-phone"></i>
                         Nous Contacter
                     </a>
@@ -1105,9 +953,9 @@
                 observer.observe(element);
             });
 
-            // Enhanced hover effects for product cards
-            const productCards = document.querySelectorAll('.product-card');
-            productCards.forEach(card => {
+            // Enhanced hover effects for category cards
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-12px) scale(1.02)';
                 });
@@ -1117,23 +965,6 @@
                 });
             });
         });
-
-        // Performance optimization - Lazy loading for images
-        if ('IntersectionObserver' in window) {
-            const lazyImages = document.querySelectorAll('[data-src]');
-            const imageObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-
-            lazyImages.forEach(img => imageObserver.observe(img));
-        }
     </script>
 </body>
 </html>

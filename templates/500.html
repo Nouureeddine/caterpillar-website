@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page non trouvée – FIKLAR</title>
+    <title>Erreur serveur – FIKLAR</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
-        :root{--cat-yellow:#FFCD11;--cat-dark:#1A1A1A;--cat-gray:#6B7280}
+        :root{--cat-yellow:#FFCD11;--cat-dark:#1A1A1A}
         *{box-sizing:border-box;margin:0;padding:0}
         body{font-family:'Montserrat',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--cat-dark),#000);color:#fff;text-align:center;padding:2rem}
         .card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,205,17,0.2);border-radius:16px;max-width:720px;width:100%;padding:3rem 2rem;box-shadow:0 20px 40px rgba(0,0,0,0.3)}
-        h1{font-size:3.8rem;letter-spacing:-1px;margin-bottom:0.5rem}
+        h1{font-size:3.5rem;margin-bottom:.5rem;letter-spacing:-1px}
         h1 span{color:var(--cat-yellow)}
-        p{color:rgba(255,255,255,0.9);margin:0.5rem 0 1.5rem;line-height:1.7}
+        p{opacity:.9;margin:.5rem 0 1.75rem;line-height:1.7}
         .row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-        a.btn{display:inline-block;background:var(--cat-yellow);color:#000;text-decoration:none;font-weight:800;padding:0.9rem 1.6rem;border-radius:8px;border:2px solid var(--cat-yellow);transition:all .2s}
+        a.btn{display:inline-block;background:var(--cat-yellow);color:#000;text-decoration:none;font-weight:800;padding:.9rem 1.6rem;border-radius:8px;border:2px solid var(--cat-yellow);transition:all .2s}
         a.btn:hover{background:transparent;color:var(--cat-yellow)}
     </style>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23FFCD11'/><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' font-size='28' font-family='Arial' fill='%23000'>F</text></svg>">
- </head>
+</head>
 <body>
     <div class="card">
-        <h1>4<span>0</span>4</h1>
-        <p>La page que vous recherchez est introuvable.<br/>Vérifiez l'URL ou revenez à l'accueil.</p>
+        <h1>5<span>0</span>0</h1>
+        <p>Un incident technique est survenu. Notre équipe a été notifiée.<br/>Veuillez réessayer dans quelques instants.</p>
         <div class="row">
-            <a class="btn" href="{{ url_for('accueil') }}">Accueil</a>
-            <a class="btn" href="{{ url_for('produits') }}">Produits</a>
+            <a class="btn" href="{{ url_for('accueil') }}">Retour à l'accueil</a>
+            <a class="btn" href="{{ url_for('produits') }}">Voir les Produits</a>
         </div>
     </div>
 </body>

@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiklar - Équipements Industriels & Pièces Détachées | Caterpillar, Doosan, Volvo</title>
+    <meta name="description" content="Fiklar: pièces détachées et équipements industriels pour Caterpillar, Doosan et Volvo. Injecteurs, hydraulique, refroidissement, transmission, filtres et plus.">
+    <link rel="canonical" href="{{ canonical_url() }}">
+    <meta property="og:title" content="Fiklar - Pièces Détachées & Équipements Industriels">
+    <meta property="og:description" content="Catalogue complet de pièces industrielles: Caterpillar, Doosan, Volvo. Devis rapide au Maroc.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url() }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/logo.png', _external=True) }}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fiklar",
+      "url": "{{ canonical_url() }}",
+      "logo": "{{ url_for('static', filename='images/logo.png', _external=True) }}",
+      "sameAs": []
+    }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Swiper CSS for carousels -->
@@ -187,9 +204,9 @@
         }
 
         .btn-primary:hover {
-            background: transparent;
-            color: var(--cat-yellow);
-            border-color: var(--cat-yellow);
+            background: #f0b90b;
+            color: var(--cat-black);
+            border-color: #f0b90b;
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(255, 205, 17, 0.3);
         }
@@ -201,10 +218,10 @@
         }
 
         .btn-secondary:hover {
-            background: var(--cat-white);
+            background: var(--cat-yellow);
             color: var(--cat-black);
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(255, 205, 17, 0.25);
         }
 
         /* Main Content */
@@ -847,11 +864,11 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">FIK<span>LAR</span></a>
+            <a href="{{ url_for('accueil') }}" class="logo">FIK<span>LAR</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#accueil">Accueil</a></li>
                 <li><a href="#about">À Propos</a></li>
-                <li><a href="{{ url_for('produits') }}">Produits</a></li>
+                <li><a href="{{ url_for('produits') }}">Catalogue Complet</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -885,16 +902,16 @@
             <div class="swiper solutions-swiper animate-on-scroll">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/slide1.svg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
+                        <img src="{{ url_for('static', filename='images/caterpillar.jpeg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
                     </div>
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/slide2.svg') }}" alt="Pelle hydraulique en action" loading="lazy"/>
+                        <img src="{{ url_for('static', filename='images/dossann.jpg') }}" alt="Pelle hydraulique Doosan" loading="lazy"/>
                     </div>
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/slide3.svg') }}" alt="Camion de chantier Doosan" loading="lazy"/>
+                        <img src="{{ url_for('static', filename='images/volvo.jpeg') }}" alt="Camion de chantier Volvo" loading="lazy"/>
                     </div>
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/slide4.svg') }}" alt="Niveauuse Volvo Construction" loading="lazy"/>
+                        <img src="{{ url_for('static', filename='images/caterpillar.jpeg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
@@ -915,7 +932,20 @@
                     <p>Notre expertise couvre les marques les plus prestigieuses : Caterpillar, Doosan et Volvo Construction Equipment.</p>
                 </div>
                 <div class="story-image image-side slide-in-right">
-                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="FIKLAR" loading="lazy">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}?v={{ current_year }}" 
+                         alt="FIKLAR" 
+                         style="max-width: 100%; height: auto; border: 1px solid #ddd;"
+                         onerror="this.style.display='none'; console.log('Logo image failed to load');"
+                         onload="console.log('Logo image loaded successfully');">
+                    
+                    <!-- Fallback text logo if image fails -->
+                    <div id="fallback-logo" style="display: none; text-align: center; padding: 40px; background: linear-gradient(135deg, #333 0%, #666 100%); color: white; border-radius: 10px;">
+                        <h1 style="font-size: 3rem; margin: 0; font-weight: bold;">
+                            <span style="color: #333;">FIK</span><span style="color: #FFD700;">LAR</span>
+                        </h1>
+                        <p style="margin: 10px 0 0 0; font-size: 1.2rem; opacity: 0.9;">Équipements & Pièces Industrielles</p>
+                    </div>
+                    
                     <div class="image-caption">
                         <h4>FIKLAR</h4>
                         <p>Équipements & Pièces Industrielles</p>
@@ -961,6 +991,11 @@
             </div>
         </div>
     </section>
+
+    <!-- Floating CTA: Demander un Devis -->
+    <a href="#contact" class="float-cta" title="Demander un Devis">
+        <i class="fas fa-file-invoice-dollar"></i>
+    </a>
 
     <!-- Brands Section -->
     <section class="section">
@@ -1287,19 +1322,100 @@
             statsObserver.observe(statsSection);
         }
 
+        // Logo fallback handling
+        const logoImg = document.querySelector('.story-image img');
+        const fallbackLogo = document.getElementById('fallback-logo');
+        
+        if (logoImg && fallbackLogo) {
+            logoImg.addEventListener('error', function() {
+                this.style.display = 'none';
+                fallbackLogo.style.display = 'block';
+                console.log('Logo image failed to load, showing fallback');
+            });
+            
+            logoImg.addEventListener('load', function() {
+                fallbackLogo.style.display = 'none';
+                console.log('Logo image loaded successfully');
+            });
+        }
+
         // Contact Form Handling
         const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+                submitBtn.disabled = true;
+                
+                // Submit to backend
+                fetch('/contact', {
+                    method: 'POST',
+                    body: formData,
+                    redirect: 'follow'
+                })
+                .then(response => {
+                    if (response.ok || response.redirected) {
+                        // Success - show success message and reset form
+                        showSuccessMessage('Merci pour votre demande ! Nous vous répondrons sous 24h.');
+                        this.reset();
+                    } else {
+                        throw new Error('Erreur lors de l\'envoi');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    showErrorMessage('Erreur lors de l\'envoi. Veuillez réessayer.');
+                })
+                .finally(() => {
+                    // Reset button state
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+        }
+
+        // Success message function
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `
+                <div style="position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10000; max-width: 300px;">
+                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                    ${message}
+                </div>
+            `;
+            document.body.appendChild(successDiv);
             
-            // Simple form validation and submission simulation
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
+            // Remove after 5 seconds
+            setTimeout(() => {
+                successDiv.remove();
+            }, 5000);
+        }
+
+        // Error message function
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `
+                <div style="position: fixed; top: 20px; right: 20px; background: #f44336; color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10000; max-width: 300px;">
+                    <i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i>
+                    ${message}
+                </div>
+            `;
+            document.body.appendChild(errorDiv);
             
-            // Show success message (in real implementation, send to server)
-            alert('Merci pour votre demande ! Nous vous contacterons dans les 24 heures.');
-            this.reset();
-        });
+            // Remove after 5 seconds
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
 
         // Add loading states for better UX
         window.addEventListener('load', () => {
