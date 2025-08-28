@@ -1,12 +1,62 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 import os
+import smtplib
+from email.message import EmailMessage
 from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'fiklar-secret-key-2025'
 
 # Configuration
-app.config['DEBUG'] = True
+# DEBUG can be toggled with env var FLASK_DEBUG ("1" truthy). Default: False
+app.config['DEBUG'] = str(os.environ.get('FLASK_DEBUG', '')).lower() in ('1', 'true', 'yes', 'on')
+app.config['MAIL_SMTP_HOST'] = os.environ.get('MAIL_SMTP_HOST', 'smtp.gmail.com')
+app.config['MAIL_SMTP_PORT'] = int(os.environ.get('MAIL_SMTP_PORT', '465'))
+app.config['MAIL_SMTP_USER'] = os.environ.get('MAIL_SMTP_USER')
+app.config['MAIL_SMTP_PASS'] = os.environ.get('MAIL_SMTP_PASS')
+app.config['MAIL_TO'] = os.environ.get('MAIL_TO', 'noureddine.douider@gmail.com')
+
+
+def send_contact_email(sender_name: str, sender_email: str, message_body: str) -> None:
+    """Send contact form content to the configured recipient via SMTP.
+
+    Uses SSL SMTP (default Gmail). Credentials and recipient are read from env vars:
+    - MAIL_SMTP_HOST (default smtp.gmail.com)
+    - MAIL_SMTP_PORT (default 465)
+    - MAIL_SMTP_USER
+    - MAIL_SMTP_PASS
+    - MAIL_TO (default noureddine.douider@gmail.com)
+    """
+    smtp_host = app.config['MAIL_SMTP_HOST']
+    smtp_port = app.config['MAIL_SMTP_PORT']
+    smtp_user = app.config['MAIL_SMTP_USER']
+    smtp_pass = app.config['MAIL_SMTP_PASS']
+    to_email = app.config['MAIL_TO']
+
+    if not (smtp_user and smtp_pass):
+        raise RuntimeError('Email credentials are not configured (MAIL_SMTP_USER/MAIL_SMTP_PASS).')
+
+    subject = f"Nouveau message de contact - {sender_name or 'Visiteur'}"
+    body_lines = [
+        f"Nom: {sender_name}",
+        f"Email: {sender_email}",
+        "",
+        "Message:",
+        message_body,
+    ]
+
+    email_message = EmailMessage()
+    email_message['Subject'] = subject
+    email_message['From'] = smtp_user
+    email_message['To'] = to_email
+    # Reply-To lets you reply directly to the visitor
+    if sender_email:
+        email_message['Reply-To'] = sender_email
+    email_message.set_content("\n".join(body_lines))
+
+    with smtplib.SMTP_SSL(host=smtp_host, port=smtp_port) as smtp:
+        smtp.login(smtp_user, smtp_pass)
+        smtp.send_message(email_message)
 
 # Données des produits (simulation base de données)
 PRODUCTS_DATA = {
@@ -285,7 +335,17 @@ def contact():
                     f.write(log_entry)
             except Exception as e:
                 print(f"Erreur écriture log contact: {e}")
-        flash('Merci pour votre message. Nous vous répondrons sous 24h.', 'success')
+        # Validation minimale
+        if not message or not (email or name):
+            flash("Veuillez fournir au moins votre nom ou e-mail et un message.", 'error')
+        else:
+            try:
+                send_contact_email(name, email, message)
+                flash('Merci pour votre message. Nous vous répondrons sous 24h.', 'success')
+            except Exception as e:
+                # Ne divulgue pas les détails à l'utilisateur final
+                print(f"Erreur envoi email contact: {e}")
+                flash("Votre message a été reçu mais l'envoi d'email a échoué. Nous vous contacterons rapidement.", 'error')
     return redirect(url_for('accueil') + '#contact')
 
 @app.route('/api/products')
@@ -441,5 +501,6 @@ if __name__ == '__main__':
     print("🚀 Démarrage de l'application Fiklar...")
     print("📍 Accès: http://localhost:5000")
     print("📧 Logs des contacts: contact_logs.txt")
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    # Use configured DEBUG flag
+    app.run(debug=app.config['DEBUG'], host='0.0.0.0', port=5000)
