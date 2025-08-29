@@ -245,7 +245,7 @@
         /* Product Cards */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
         }
@@ -258,7 +258,7 @@
             box-shadow: var(--shadow-medium);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            height: 320px;
+            height: 280px;
             display: flex;
             flex-direction: column;
         }
@@ -287,13 +287,14 @@
         }
 
         .product-image {
-            height: 120px;
+            height: 180px;
             background: linear-gradient(135deg, var(--cat-dark) 0%, #2a2a2a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            border-bottom: 1px solid var(--cat-light);
         }
 
         .product-image::after {
@@ -321,6 +322,16 @@
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
 
+        .product-image img.product-photo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            z-index: 2;
+            position: relative;
+        }
+
         .product-card:hover .product-image i {
             transform: scale(1.15);
             color: #f0b90b;
@@ -333,6 +344,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-content::before {
@@ -352,26 +364,20 @@
         }
 
         .product-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: var(--cat-black);
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             line-height: 1.3;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            text-align: center;
         }
 
-        .product-description {
-            color: var(--cat-gray);
-            line-height: 1.6;
-            font-size: 0.9rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
-            flex: 1;
-        }
+
 
         .product-actions {
-            margin-top: auto;
+            display: none;
         }
 
         .btn-product {
@@ -396,6 +402,30 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 205, 17, 0.3);
             color: var(--cat-black);
+        }
+
+        /* Single CTA below the grid */
+        .category-cta {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .btn-category-cta {
+            background: var(--cat-yellow);
+            color: var(--cat-black);
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 6px 20px rgba(255, 205, 17, 0.25);
+            transition: all 0.3s ease;
+        }
+        .btn-category-cta:hover {
+            background: #f0b90b;
+            transform: translateY(-2px);
         }
 
         /* CTA Section */
@@ -546,7 +576,7 @@
             .product-card {
                 margin: 0 auto;
                 max-width: 350px;
-                height: 300px;
+                height: 260px;
             }
 
             .cta-content h3 { font-size: 2rem; }
@@ -612,20 +642,148 @@
                 {% for product in category.products %}
                 <div class="product-card animate-fade-in">
                     <div class="product-image">
-                        <i class="{{ product.icon }}"></i>
+                        {% if category_name == 'carburant' %}
+                            {% if product.name == 'Coil Gp' %}
+                                <img src="{{ url_for('static', filename='images/coigp.png') }}" alt="Coil Gp" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Injecteur Standard' %}
+                                <img src="{{ url_for('static', filename='images/injecteurstandare.png') }}" alt="Injecteur Standard" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Nozzle Haute Pression' %}
+                                <img src="{{ url_for('static', filename='images/nozzle.png') }}" alt="Nozzle Haute Pression" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Fuel Injection Pump' %}
+                                <img src="{{ url_for('static', filename='images/fuel-pump.png') }}" alt="Fuel Injection Pump" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'electronique' %}
+                            {% if product.name == 'Capteur Température Eau' %}
+                                <img src="{{ url_for('static', filename='images/eau.png') }}" alt="Capteur Température Eau" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Capteur Température Huile' %}
+                                <img src="{{ url_for('static', filename='images/temperature.png') }}" alt="Capteur Température Huile" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Capteur Pression Huile' %}
+                                <img src="{{ url_for('static', filename='images/huile.png') }}" alt="Capteur Pression Huile" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Capteur Pression Carburant' %}
+                                <img src="{{ url_for('static', filename='images/pressioncarburant.png') }}" alt="Capteur Pression Carburant" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Capteur Vitesse Camshaft' %}
+                                <img src="{{ url_for('static', filename='images/capteurvitesscamshaft.png') }}" alt="Capteur Vitesse Camshaft" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Coil Gp Électronique' %}
+                                <img src="{{ url_for('static', filename='images/coilgpelectronique.png') }}" alt="Coil Gp Électronique" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'refroidissement' %}
+                            {% if product.name == 'Radiateur Eau' %}
+                                <img src="{{ url_for('static', filename='images/radiateureau.png') }}" alt="Radiateur Eau" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Radiateur Huile' %}
+                                <img src="{{ url_for('static', filename='images/radiateurhuile.png') }}" alt="Radiateur Huile" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'turbo' %}
+                            {% if product.name == 'Turbocharger' %}
+                                <img src="{{ url_for('static', filename='images/turbocharger.png') }}" alt="Turbocharger" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Compressor Wheel' %}
+                                <img src="{{ url_for('static', filename='images/compressorwheel.png') }}" alt="Compressor Wheel" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'composants' %}
+                            {% if product.name == 'Shaft' %}
+                                <img src="{{ url_for('static', filename='images/shaft.png') }}" alt="Shaft" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Valve Gp' %}
+                                <img src="{{ url_for('static', filename='images/valvegp.png') }}" alt="Valve Gp" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Core' %}
+                                <img src="{{ url_for('static', filename='images/core.png') }}" alt="Core" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Kit de Réparation' %}
+                                <img src="{{ url_for('static', filename='images/kitdereparation.png') }}" alt="Kit de Réparation" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'outils-sol' %}
+                            {% if product.name == 'Dents de Godet' %}
+                                <img src="{{ url_for('static', filename='images/dentsdegodget.webp') }}" alt="Dents de Godet" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Chaînes de Chenilles' %}
+                                <img src="{{ url_for('static', filename='images/chainedechenilles.png') }}" alt="Chaînes de Chenilles" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Galets de Roulement' %}
+                                <img src="{{ url_for('static', filename='images/GaletsdeRoulement.png') }}" alt="Galets de Roulement" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Lames de Bulldozer' %}
+                                <img src="{{ url_for('static', filename='images/LamesdeBulldozer.png') }}" alt="Lames de Bulldozer" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'filtres' %}
+                            {% if product.name == 'Filtres à Huile' %}
+                                <img src="{{ url_for('static', filename='images/filtresahuile.png') }}" alt="Filtres à Huile" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Filtres à Carburant' %}
+                                <img src="{{ url_for('static', filename='images/FiltresàCarburant.png') }}" alt="Filtres à Carburant" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Filtres à Air' %}
+                                <img src="{{ url_for('static', filename='images/filreaair.png') }}" alt="Filtres à Air" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Filtres Hydrauliques' %}
+                                <img src="{{ url_for('static', filename='images/FiltresHydrauliques.png') }}" alt="Filtres Hydrauliques" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'electrique' %}
+                            {% if product.name == 'Moteurs de Démarrage' %}
+                                <img src="{{ url_for('static', filename='images/MoteursdeDémarrage.png') }}" alt="Moteurs de Démarrage" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Alternateurs' %}
+                                <img src="{{ url_for('static', filename='images/Alternateurs.png') }}" alt="Alternateurs" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Modules Électroniques' %}
+                                <img src="{{ url_for('static', filename='images/ModulesÉlectroniques.png') }}" alt="Modules Électroniques" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Connecteurs Électriques' %}
+                                <img src="{{ url_for('static', filename='images/ConnecteursÉlectriques.png') }}" alt="Connecteurs Électriques" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'joints' %}
+                            {% if product.name == 'Joints Toriques' %}
+                                <img src="{{ url_for('static', filename='images/JointsToriques.png') }}" alt="Joints Toriques" class="product-photo" loading="lazy"/>
+                            {% elif product.name == "Joints d'Étanchéité" %}
+                                <img src="{{ url_for('static', filename='images/Jointsd_Étanchéité.png') }}" alt="Joints d'Étanchéité" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Kits de Joints' %}
+                                <img src="{{ url_for('static', filename='images/KitsdeJoints.png') }}" alt="Kits de Joints" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Joints Spéciaux' %}
+                                <img src="{{ url_for('static', filename='images/JointsSpéciaux.png') }}" alt="Joints Spéciaux" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'silentblocs' %}
+                            {% if product.name == 'Silentblocs Moteur' %}
+                                <img src="{{ url_for('static', filename='images/SilentblocsMoteur.png') }}" alt="Silentblocs Moteur" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Silentblocs Transmission' %}
+                                <img src="{{ url_for('static', filename='images/SilentblocsTransmission.png') }}" alt="Silentblocs Transmission" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Silentblocs Châssis' %}
+                                <img src="{{ url_for('static', filename='images/SilentblocsChâssis.png') }}" alt="Silentblocs Châssis" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Silentblocs Spéciaux' %}
+                                <img src="{{ url_for('static', filename='images/SilentblocsSpéciaux.png') }}" alt="Silentblocs Spéciaux" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% elif category_name == 'transmission' %}
+                            {% if product.name == 'Embrayages' %}
+                                <img src="{{ url_for('static', filename='images/Embrayages.png') }}" alt="Embrayages" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Pignons de Transmission' %}
+                                <img src="{{ url_for('static', filename='images/PignonsdeTransmission.png') }}" alt="Pignons de Transmission" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Systèmes de Freinage' %}
+                                <img src="{{ url_for('static', filename='images/SystèmesdeFreinage.png') }}" alt="Systèmes de Freinage" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Arbres de Transmission' %}
+                                <img src="{{ url_for('static', filename='images/ArbresdeTransmission.png') }}" alt="Arbres de Transmission" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
+                        {% else %}
+                            <i class="{{ product.icon }}"></i>
+                        {% endif %}
                     </div>
                     <div class="product-content">
                         <h3 class="product-title">{{ product.name }}</h3>
-                        <p class="product-description">{{ product.description }}</p>
-                        <div class="product-actions">
-                            <a href="/#contact" class="btn-product">
-                                <i class="fas fa-info-circle"></i>
-                                Demander un Devis
-                            </a>
-                        </div>
                     </div>
                 </div>
                 {% endfor %}
+            </div>
+
+            <!-- Single CTA under grid -->
+            <div class="category-cta animate-fade-in">
+                <a href="/#contact" class="btn-category-cta">Demander un Devis</a>
             </div>
         </div>
     </section>
@@ -644,7 +802,7 @@
                         <i class="fas fa-phone"></i>
                         Nous Contacter
                     </a>
-                    <a href="https://wa.me/212600000000" class="btn btn-outline-white" target="_blank">
+                    <a href="https://wa.me/212612999903" class="btn btn-outline-white" target="_blank">
                         <i class="fab fa-whatsapp"></i>
                         WhatsApp Business
                     </a>

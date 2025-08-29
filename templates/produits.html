@@ -217,7 +217,7 @@
             box-shadow: var(--shadow-medium);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            height: 400px;
+            height: 320px;
             display: flex;
             flex-direction: column;
         }
@@ -245,45 +245,7 @@
             transform: scaleX(1);
         }
 
-        .category-image {
-            height: 200px;
-            background: linear-gradient(135deg, var(--cat-dark) 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
 
-        .category-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,205,17,0.15) 50%, transparent 70%);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .category-card:hover .category-image::after {
-            transform: translateX(100%);
-        }
-
-        .category-image i {
-            font-size: 4rem;
-            color: var(--cat-yellow);
-            transition: all 0.3s ease;
-            z-index: 2;
-            position: relative;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        .category-card:hover .category-image i {
-            transform: scale(1.15);
-            color: #f0b90b;
-        }
 
         .category-content {
             padding: 2rem;
@@ -292,6 +254,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
         .category-content::before {
@@ -311,10 +274,10 @@
         }
 
         .category-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--cat-black);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.3;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -333,7 +296,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             font-size: 0.9rem;
             color: var(--cat-gray);
         }
@@ -348,7 +311,7 @@
         .btn-category {
             background: var(--cat-yellow);
             color: var(--cat-black);
-            padding: 12px 24px;
+            padding: 16px 24px;
             border: none;
             border-radius: 8px;
             font-weight: 700;
@@ -357,9 +320,10 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             display: inline-block;
             width: 100%;
+            margin-top: auto;
         }
 
         .btn-category:hover {
@@ -583,7 +547,7 @@
             .category-card {
                 margin: 0 auto;
                 max-width: 400px;
-                height: 380px;
+                height: 300px;
             }
 
             .cta-content h3 { font-size: 2rem; }
@@ -652,12 +616,9 @@
                 <div class="categories-grid">
                     <!-- 1. Système de carburant -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-gas-pump"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Système de Carburant</h3>
-                            <p class="category-description">Solutions complètes pour l'alimentation et l'injection de carburant. Injecteurs, pompes, et composants de précision pour moteurs industriels.</p>
+                            <p class="category-description">Solutions complètes pour l'alimentation et l'injection de carburant. Injecteurs, pompes et composants de précision.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Haute performance</span>
@@ -668,12 +629,9 @@
 
                     <!-- 2. Capteurs et électronique moteur -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-microchip"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Capteurs & Électronique</h3>
-                            <p class="category-description">Systèmes de surveillance et de contrôle électronique de pointe. Capteurs de température, pression, vitesse et modules de contrôle.</p>
+                            <p class="category-description">Systèmes avancés de surveillance électronique.</p>
                             <div class="category-stats">
                                 <span>6 produits</span>
                                 <span>Technologie avancée</span>
@@ -684,12 +642,9 @@
 
                     <!-- 3. Système de refroidissement -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-snowflake"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Système de Refroidissement</h3>
-                            <p class="category-description">Échangeurs thermiques et composants de refroidissement haute efficacité. Radiateurs eau et huile pour performance optimale.</p>
+                            <p class="category-description">Échangeurs thermiques et composants de refroidissement haute efficacité.</p>
                             <div class="category-stats">
                                 <span>2 produits</span>
                                 <span>Haute efficacité</span>
@@ -700,12 +655,9 @@
 
                     <!-- 4. Turbo et système d'air -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-fan"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Turbo & Système d'Air</h3>
-                            <p class="category-description">Turbocompresseurs et composants de suralimentation de précision. Performance moteur optimisée et économie de carburant.</p>
+                            <p class="category-description">Turbocompresseurs et composants de suralimentation de précision. Performance moteur optimisée.</p>
                             <div class="category-stats">
                                 <span>2 produits</span>
                                 <span>Performance optimale</span>
@@ -716,12 +668,9 @@
 
                     <!-- 5. Composants moteur & pièces de réparation -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-cogs"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Composants Moteur</h3>
-                            <p class="category-description">Pièces mécaniques essentielles et kits de maintenance complets. Arbres, valves, noyaux et kits de réparation professionnels.</p>
+                            <p class="category-description">Pièces mécaniques essentielles et kits de maintenance complets. Arbres, valves et noyaux.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Qualité premium</span>
@@ -732,12 +681,9 @@
 
                     <!-- 6. Outils d'attaque du sol et Train de Roulement -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-shovel"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Outils d'Attaque du Sol</h3>
-                            <p class="category-description">Pièces d'usure et composants de mobilité pour tous types d'engins. Dents de godet, chaînes de chenilles et galets de roulement.</p>
+                            <p class="category-description">Pièces d'usure et composants de mobilité pour tous types d'engins. Dents de godet et chaînes.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Haute résistance</span>
@@ -748,12 +694,9 @@
 
                     <!-- 7. Filtres -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-filter"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Filtres</h3>
-                            <p class="category-description">Solutions de filtration premium pour tous types de fluides industriels. Filtres à huile, carburant, air et hydrauliques de haute qualité.</p>
+                            <p class="category-description">Solutions de filtration premium pour tous types de fluides industriels. Filtres à huile, carburant et air.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Filtration premium</span>
@@ -764,12 +707,9 @@
 
                     <!-- 8. Système Hydraulique -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-water"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Système Hydraulique</h3>
-                            <p class="category-description">Composants hydrauliques haute performance pour engins de chantier. Pompes, distributeurs, vérins et flexibles haute pression.</p>
+                            <p class="category-description">Composants hydrauliques haute performance pour engins de chantier. Pompes, distributeurs et vérins.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Haute pression</span>
@@ -780,12 +720,9 @@
 
                     <!-- 9. Système Électrique -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-bolt"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Système Électrique</h3>
-                            <p class="category-description">Composants électriques et électroniques pour engins industriels. Moteurs de démarrage, alternateurs et modules de contrôle.</p>
+                            <p class="category-description">Composants électriques et électroniques pour engins industriels. Moteurs de démarrage et alternateurs.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Électronique avancée</span>
@@ -796,12 +733,9 @@
 
                     <!-- 10. Pochette des Joints -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-circle"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Pochette des Joints</h3>
-                            <p class="category-description">Joints toriques et joints d'étanchéité de haute qualité. Étanchéité parfaite pour applications hydrauliques et pneumatiques.</p>
+                            <p class="category-description">Joints toriques et joints d'étanchéité de haute qualité. Étanchéité parfaite pour applications industrielles.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Étanchéité parfaite</span>
@@ -812,12 +746,9 @@
 
                     <!-- 11. Silentblocs -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Silentblocs</h3>
-                            <p class="category-description">Amortisseurs et supports antivibratoires pour engins lourds. Réduction des vibrations et protection des composants sensibles.</p>
+                            <p class="category-description">Amortisseurs et supports antivibratoires pour engins lourds. Réduction des vibrations et protection.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Antivibratoire</span>
@@ -828,12 +759,9 @@
 
                     <!-- 12. Transmission et Freinage -->
                     <div class="category-card animate-fade-in">
-                        <div class="category-image">
-                            <i class="fas fa-cogs"></i>
-                        </div>
                         <div class="category-content">
                             <h3 class="category-title">Transmission & Freinage</h3>
-                            <p class="category-description">Composants de transmission et systèmes de freinage haute performance. Embrayages, pignons et systèmes de freinage sécurisés.</p>
+                            <p class="category-description">Composants de transmission et systèmes de freinage haute performance. Embrayages et pignons.</p>
                             <div class="category-stats">
                                 <span>4 produits</span>
                                 <span>Performance maximale</span>

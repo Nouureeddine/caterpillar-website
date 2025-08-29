@@ -30,46 +30,162 @@
 /* Language toggle */
 /* removed lang-toggle */
 
-/* Swiper slides */
+/* Solutions Section - Modern Redesign */
+.solutions-section {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.solutions-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="%23f0f0f0" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.solutions-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.solutions-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--cat-black);
+    margin-bottom: 1rem;
+    letter-spacing: -1px;
+    position: relative;
+    display: inline-block;
+}
+
+.solutions-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, #ffb600 0%, #ffcd11 100%);
+    border-radius: 2px;
+}
+
+.solutions-subtitle {
+    font-size: 1.3rem;
+    color: var(--cat-gray);
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Modern Swiper Design */
 .solutions-swiper {
     width: 100%;
-    height: 500px;
-    border-radius: 20px;
+    height: 600px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    padding: 25px;
-    border: 1px solid #e9ecef;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    background: var(--cat-white);
+    position: relative;
+    z-index: 2;
 }
+
 .solutions-swiper .swiper-slide {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
 }
+
+.slide-content {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .solutions-swiper img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
+
 .solutions-swiper img:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+/* Custom Navigation Arrows */
+.solutions-nav-btn {
+    width: 56px !important;
+    height: 56px !important;
+    background: var(--cat-white) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    color: var(--cat-dark) !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+}
+
+.solutions-nav-btn:hover {
+    background: var(--cat-yellow) !important;
+    color: var(--cat-black) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 32px rgba(255, 205, 17, 0.3) !important;
+}
+
+.solutions-nav-btn::after {
+    display: none !important;
+}
+
+.solutions-nav-btn i {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Custom Pagination */
+.solutions-pagination {
+    bottom: 24px !important;
+}
+
+.solutions-pagination .swiper-pagination-bullet {
+    width: 12px !important;
+    height: 12px !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+    border-radius: 50% !important;
+    margin: 0 6px !important;
+}
+
+.solutions-pagination .swiper-pagination-bullet-active {
+    background: #ffb600 !important;
+    transform: scale(1.2) !important;
+    box-shadow: 0 0 0 3px rgba(255, 182, 0, 0.2) !important;
 }
 
 /* Image enhancement for better quality display */
 .solutions-swiper img {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
-    filter: contrast(1.1) brightness(1.05);
+    filter: contrast(1.05) brightness(1.02);
 }
 
 /* Story image side */
@@ -99,6 +215,29 @@
 .animate-on-scroll { opacity: 0; transform: translateY(18px); }
 .animate-on-scroll.animated { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
 
+/* Enhanced Solutions Section Animations */
+.solutions-header.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.solutions-header.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.solutions-swiper.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+}
+
+.solutions-swiper.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 /* Category card hover (shared look) */
 .category-card .category-image i { transition: color 0.3s ease, transform 0.3s ease; }
 .category-card:hover .category-image i { color: var(--cat-yellow); transform: scale(1.08); }
@@ -120,11 +259,75 @@
     justify-content: center;
 }
 
+/* Responsive Design for Solutions Section */
+@media (max-width: 1200px) {
+    .solutions-title {
+        font-size: 3rem;
+    }
+    
+    .solutions-swiper {
+        height: 550px;
+    }
+}
+
 @media (max-width: 992px) {
     .values-grid,
     .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .brands-grid { grid-template-columns: repeat(2, minmax(260px, 1fr)); }
+    
+    .solutions-title {
+        font-size: 2.8rem;
+    }
+    
+    .solutions-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .solutions-swiper {
+        height: 500px;
+    }
+    
+    .solutions-nav-btn {
+        width: 48px !important;
+        height: 48px !important;
+    }
 }
+@media (max-width: 768px) {
+    .solutions-title {
+        font-size: 2.4rem;
+    }
+    
+    .solutions-subtitle {
+        font-size: 1.1rem;
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .solutions-swiper {
+        height: 400px;
+        border-radius: 16px;
+    }
+    
+    .slide-content {
+        padding: 1rem;
+    }
+    
+    .solutions-nav-btn {
+        width: 44px !important;
+        height: 44px !important;
+    }
+    
+    .solutions-pagination {
+        bottom: 16px !important;
+    }
+    
+    .solutions-pagination .swiper-pagination-bullet {
+        width: 10px !important;
+        height: 10px !important;
+        margin: 0 4px !important;
+    }
+}
+
 @media (max-width: 576px) {
     .values-grid,
     .stats-grid { grid-template-columns: 1fr !important; }

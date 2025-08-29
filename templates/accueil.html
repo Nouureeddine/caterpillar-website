@@ -896,27 +896,47 @@
     </section>
 
     <!-- Carousel: Nos Solutions en Action -->
-    <section class="section" id="solutions">
+    <section class="section solutions-section" id="solutions">
         <div class="container">
-            <h2 class="section-title animate-on-scroll">Nos Solutions en Action</h2>
+            <div class="solutions-header animate-on-scroll">
+                <h2 class="solutions-title">Nos Solutions en Action</h2>
+                <p class="solutions-subtitle">Découvrez comment nos équipements transforment les chantiers.</p>
+            </div>
+            
             <div class="swiper solutions-swiper animate-on-scroll">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/caterpillar.jpeg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
+                        <div class="slide-content">
+                            <img src="{{ url_for('static', filename='images/caterpillar.jpeg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
+                        </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/dossann.jpg') }}" alt="Pelle hydraulique Doosan" loading="lazy"/>
+                        <div class="slide-content">
+                            <img src="{{ url_for('static', filename='images/dossann.jpg') }}" alt="Pelle hydraulique Doosan" loading="lazy"/>
+                        </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/volvo.jpeg') }}" alt="Camion de chantier Volvo" loading="lazy"/>
+                        <div class="slide-content">
+                            <img src="{{ url_for('static', filename='images/volvo.jpeg') }}" alt="Camion de chantier Volvo" loading="lazy"/>
+                        </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="{{ url_for('static', filename='images/caterpillar.jpeg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
+                        <div class="slide-content">
+                            <img src="{{ url_for('static', filename='images/caterpillar.png') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
+                        </div>
                     </div>
                 </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+                
+                <!-- Custom Navigation Arrows -->
+                <div class="swiper-button-prev solutions-nav-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="swiper-button-next solutions-nav-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <!-- Custom Pagination -->
+                <div class="swiper-pagination solutions-pagination"></div>
             </div>
         </div>
     </section>
@@ -1429,11 +1449,33 @@
         // Initialize Swiper (Solutions)
         const solutionsSwiper = new Swiper('.solutions-swiper', {
             loop: true,
-            autoplay: { delay: 3500, disableOnInteraction: false },
-            effect: 'fade',
-            speed: 800,
-            pagination: { el: '.solutions-swiper .swiper-pagination', clickable: true },
-            navigation: { nextEl: '.solutions-swiper .swiper-button-next', prevEl: '.solutions-swiper .swiper-button-prev' },
+            autoplay: { delay: 4000, disableOnInteraction: false },
+            effect: 'slide',
+            speed: 600,
+            grabCursor: true,
+            pagination: { 
+                el: '.solutions-pagination', 
+                clickable: true,
+                dynamicBullets: true
+            },
+            navigation: { 
+                nextEl: '.solutions-nav-btn.swiper-button-next', 
+                prevEl: '.solutions-nav-btn.swiper-button-prev' 
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 0
+                },
+                768: {
+                    slidesPerView: 1,
+                    spaceBetween: 0
+                },
+                1024: {
+                    slidesPerView: 1,
+                    spaceBetween: 0
+                }
+            }
         });
 
         // Lazy loading for performance optimization
