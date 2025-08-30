@@ -120,13 +120,8 @@
             width: 100%;
         }
 
-        /* Hero Section */
+        /* Hero Section with Sliding Background */
         .hero {
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(26,26,26,0.8) 50%, rgba(255,205,17,0.1) 100%),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect width="1200" height="600" fill="%23333"/><rect x="0" y="0" width="400" height="200" fill="%23444"/><rect x="500" y="100" width="300" height="150" fill="%23555"/><rect x="900" y="50" width="250" height="180" fill="%23666"/><circle cx="200" cy="400" r="50" fill="%23777"/><circle cx="600" cy="450" r="30" fill="%23888"/><text x="600" y="320" text-anchor="middle" fill="%23999" font-size="24">INDUSTRIAL EQUIPMENT</text></svg>');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -135,6 +130,53 @@
             color: var(--cat-white);
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .hero-background-slide.active {
+            opacity: 1;
+        }
+
+        .hero-background-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(26,26,26,0.8) 50%, rgba(255,205,17,0.1) 100%);
+        }
+
+        .hero-background-slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,205,17,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
         }
 
         .hero::before {
@@ -879,6 +921,13 @@
 
     <!-- Hero Section -->
     <section id="accueil" class="hero">
+        <!-- Background Slides -->
+        <div class="hero-background">
+            <div class="hero-background-slide active" style="background-image: url('{{ url_for('static', filename='images/image1.jpeg') }}');"></div>
+            <div class="hero-background-slide" style="background-image: url('{{ url_for('static', filename='images/image2.jpg') }}');"></div>
+            <div class="hero-background-slide" style="background-image: url('{{ url_for('static', filename='images/image3.jpg') }}');"></div>
+        </div>
+        
         <div class="hero-content">
             <h1 class="typing" data-typing-target="Équipements Industriels Premium|Pièces Détachées d’Origine|Solutions Pour Travaux Publics">Équipements Industriels <span>Premium</span></h1>
             <p>Votre partenaire de confiance pour les pièces détachées et équipements Caterpillar, Doosan et Volvo</p>
@@ -895,80 +944,58 @@
         </div>
     </section>
 
-    <!-- Carousel: Nos Solutions en Action -->
-    <section class="section solutions-section" id="solutions">
-        <div class="container">
-            <div class="solutions-header animate-on-scroll">
-                <h2 class="solutions-title">Nos Solutions en Action</h2>
-                <p class="solutions-subtitle">Découvrez comment nos équipements transforment les chantiers.</p>
-            </div>
-            
-            <div class="swiper solutions-swiper animate-on-scroll">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="slide-content">
-                            <img src="{{ url_for('static', filename='images/caterpillar.jpeg') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide-content">
-                            <img src="{{ url_for('static', filename='images/dossann.jpg') }}" alt="Pelle hydraulique Doosan" loading="lazy"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide-content">
-                            <img src="{{ url_for('static', filename='images/volvo.jpeg') }}" alt="Camion de chantier Volvo" loading="lazy"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide-content">
-                            <img src="{{ url_for('static', filename='images/caterpillar.png') }}" alt="Chargeuse sur pneus Caterpillar" loading="lazy"/>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Custom Navigation Arrows -->
-                <div class="swiper-button-prev solutions-nav-btn">
-                    <i class="fas fa-chevron-left"></i>
-                </div>
-                <div class="swiper-button-next solutions-nav-btn">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <!-- Custom Pagination -->
-                <div class="swiper-pagination solutions-pagination"></div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- About Section -->
-    <section id="about" class="section">
+    <section id="about" class="section about-section">
         <div class="container">
-            <div class="story-grid animate-on-scroll">
-                <div class="story-text">
-                    <h3>Excellence & Innovation Depuis 2013</h3>
-                    <p>Basée à <strong>Marrakech</strong>, Fiklar s'est imposée comme leader dans la distribution d'équipements industriels de haute qualité au Maroc et à l'international.</p>
-                    <p>Nous sommes spécialisés dans les pièces détachées et équipements pour les secteurs des <strong>travaux publics</strong>, <strong>mines</strong>, <strong>carrières</strong> et <strong>agriculture</strong>.</p>
-                    <p>Notre expertise couvre les marques les plus prestigieuses : Caterpillar, Doosan et Volvo Construction Equipment.</p>
-                </div>
-                <div class="story-image image-side slide-in-right">
-                    <img src="{{ url_for('static', filename='images/logo.png') }}?v={{ current_year }}" 
-                         alt="FIKLAR" 
-                         style="max-width: 100%; height: auto; border: 1px solid #ddd;"
-                         onerror="this.style.display='none'; console.log('Logo image failed to load');"
-                         onload="console.log('Logo image loaded successfully');">
-                    
-                    <!-- Fallback text logo if image fails -->
-                    <div id="fallback-logo" style="display: none; text-align: center; padding: 40px; background: linear-gradient(135deg, #333 0%, #666 100%); color: white; border-radius: 10px;">
-                        <h1 style="font-size: 3rem; margin: 0; font-weight: bold;">
-                            <span style="color: #333;">FIK</span><span style="color: #FFD700;">LAR</span>
-                        </h1>
-                        <p style="margin: 10px 0 0 0; font-size: 1.2rem; opacity: 0.9;">Équipements & Pièces Industrielles</p>
+            <div class="about-header animate-on-scroll">
+                <h2 class="about-title">À Propos de Fiklar</h2>
+                <p class="about-subtitle">Votre partenaire de confiance depuis 2013</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-logo-section animate-on-scroll">
+                    <div class="logo-container">
+                        <img src="{{ url_for('static', filename='images/logo.png') }}?v={{ current_year }}" 
+                             alt="FIKLAR - Équipements Industriels" 
+                             class="about-logo"
+                             onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';"
+                             onload="console.log('Logo loaded successfully');">
+                        
+                        <!-- Fallback text logo if image fails -->
+                        <div id="fallback-logo" class="fallback-logo">
+                            <h1 class="fallback-text">
+                                <span class="fallback-fik">FIK</span><span class="fallback-lar">LAR</span>
+                            </h1>
+                            <p class="fallback-subtitle">Équipements & Pièces Industrielles</p>
+                        </div>
                     </div>
                     
-                    <div class="image-caption">
-                        <h4>FIKLAR</h4>
-                        <p>Équipements & Pièces Industrielles</p>
+
+                </div>
+                
+                <div class="about-text-section animate-on-scroll">
+                    <div class="about-text">
+                        <h3>Excellence & Innovation Depuis 2013</h3>
+                        <p class="about-description">Basée à <strong>Marrakech</strong>, Fiklar s'est imposée comme leader dans la distribution d'équipements industriels de haute qualité au Maroc et à l'international.</p>
+                        
+                        <div class="about-features">
+                            <div class="feature-item">
+                                <i class="fas fa-industry"></i>
+                                <span>Spécialisés dans les <strong>travaux publics</strong>, <strong>mines</strong>, <strong>carrières</strong> et <strong>agriculture</strong></span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Expertise sur les marques prestigieuses : <strong>Caterpillar</strong>, <strong>Doosan</strong> et <strong>Volvo</strong></span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-globe-africa"></i>
+                                <span>Distribution internationale avec service client 24/7</span>
+                            </div>
+                        </div>
+                        
+
                     </div>
                 </div>
             </div>
@@ -1437,46 +1464,35 @@
             }, 5000);
         }
 
+        // Hero Background Slides Functionality
+        function initHeroBackgroundSlides() {
+            const slides = document.querySelectorAll('.hero-background-slide');
+            let currentSlide = 0;
+            const slideInterval = 5000; // 5 seconds per slide
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            // Start the slideshow
+            setInterval(nextSlide, slideInterval);
+        }
+
         // Add loading states for better UX
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
+            
+            // Initialize hero background slides
+            initHeroBackgroundSlides();
             
             // Preload important images and resources
             const heroBackground = new Image();
             heroBackground.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect width="1200" height="600" fill="%23333"/></svg>';
         });
 
-        // Initialize Swiper (Solutions)
-        const solutionsSwiper = new Swiper('.solutions-swiper', {
-            loop: true,
-            autoplay: { delay: 4000, disableOnInteraction: false },
-            effect: 'slide',
-            speed: 600,
-            grabCursor: true,
-            pagination: { 
-                el: '.solutions-pagination', 
-                clickable: true,
-                dynamicBullets: true
-            },
-            navigation: { 
-                nextEl: '.solutions-nav-btn.swiper-button-next', 
-                prevEl: '.solutions-nav-btn.swiper-button-prev' 
-            },
-            breakpoints: {
-                320: {
-                    slidesPerView: 1,
-                    spaceBetween: 0
-                },
-                768: {
-                    slidesPerView: 1,
-                    spaceBetween: 0
-                },
-                1024: {
-                    slidesPerView: 1,
-                    spaceBetween: 0
-                }
-            }
-        });
+
 
         // Lazy loading for performance optimization
         if ('IntersectionObserver' in window) {

@@ -722,6 +722,18 @@
                             {% else %}
                                 <i class="{{ product.icon }}"></i>
                             {% endif %}
+                        {% elif category_name == 'hydraulique' %}
+                            {% if product.name == 'Pompes Hydrauliques' %}
+                                <img src="{{ url_for('static', filename='images/pompehydraulique.png') }}" alt="Pompes Hydrauliques" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Distributeurs Hydrauliques' %}
+                                <img src="{{ url_for('static', filename='images/DistributeursHydrauliques.png') }}" alt="Distributeurs Hydrauliques" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Vérins Hydrauliques' %}
+                                <img src="{{ url_for('static', filename='images/VérinsHydrauliques.png') }}" alt="Vérins Hydrauliques" class="product-photo" loading="lazy"/>
+                            {% elif product.name == 'Flexibles Hydrauliques' %}
+                                <img src="{{ url_for('static', filename='images/FlexiblesHydrauliques.png') }}" alt="Flexibles Hydrauliques" class="product-photo" loading="lazy"/>
+                            {% else %}
+                                <i class="{{ product.icon }}"></i>
+                            {% endif %}
                         {% elif category_name == 'electrique' %}
                             {% if product.name == 'Moteurs de Démarrage' %}
                                 <img src="{{ url_for('static', filename='images/MoteursdeDémarrage.png') }}" alt="Moteurs de Démarrage" class="product-photo" loading="lazy"/>
