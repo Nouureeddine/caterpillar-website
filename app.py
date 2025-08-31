@@ -1,154 +1,40 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 import os
-import smtplib
-from email.message import EmailMessage
 from datetime import datetime
+import secrets
+from data import PRODUCTS_DATA, COMPANY_INFO
 
 app = Flask(__name__)
-app.secret_key = 'fiklar-secret-key-2025'
+
+# Security: Generate secret key from environment or use a secure random one
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', secrets.token_hex(32))
 
 # Configuration
-# DEBUG can be toggled with env var FLASK_DEBUG ("1" truthy). Default: False
 app.config['DEBUG'] = str(os.environ.get('FLASK_DEBUG', '')).lower() in ('1', 'true', 'yes', 'on')
-app.config['MAIL_SMTP_HOST'] = os.environ.get('MAIL_SMTP_HOST', 'smtp.gmail.com')
-app.config['MAIL_SMTP_PORT'] = int(os.environ.get('MAIL_SMTP_PORT', '465'))
-app.config['MAIL_SMTP_USER'] = os.environ.get('MAIL_SMTP_USER')
-app.config['MAIL_SMTP_PASS'] = os.environ.get('MAIL_SMTP_PASS')
-app.config['MAIL_TO'] = os.environ.get('MAIL_TO', 'noureddine.douider@gmail.com')
 
-
-def send_contact_email(sender_name: str, sender_email: str, message_body: str) -> None:
-    """Send contact form content to the configured recipient via SMTP.
-
-    Uses SSL SMTP (default Gmail). Credentials and recipient are read from env vars:
-    - MAIL_SMTP_HOST (default smtp.gmail.com)
-    - MAIL_SMTP_PORT (default 465)
-    - MAIL_SMTP_USER
-    - MAIL_SMTP_PASS
-    - MAIL_TO (default noureddine.douider@gmail.com)
-    """
-    smtp_host = app.config['MAIL_SMTP_HOST']
-    smtp_port = app.config['MAIL_SMTP_PORT']
-    smtp_user = app.config['MAIL_SMTP_USER']
-    smtp_pass = app.config['MAIL_SMTP_PASS']
-    to_email = app.config['MAIL_TO']
-
-    if not (smtp_user and smtp_pass):
-        raise RuntimeError('Email credentials are not configured (MAIL_SMTP_USER/MAIL_SMTP_PASS).')
-
-    subject = f"Nouveau message de contact - {sender_name or 'Visiteur'}"
-    body_lines = [
-        f"Nom: {sender_name}",
-        f"Email: {sender_email}",
-        "",
-        "Message:",
-        message_body,
-    ]
-
-    email_message = EmailMessage()
-    email_message['Subject'] = subject
-    email_message['From'] = smtp_user
-    email_message['To'] = to_email
-    # Reply-To lets you reply directly to the visitor
-    if sender_email:
-        email_message['Reply-To'] = sender_email
-    email_message.set_content("\n".join(body_lines))
-
-    with smtplib.SMTP_SSL(host=smtp_host, port=smtp_port) as smtp:
-        smtp.login(smtp_user, smtp_pass)
-        smtp.send_message(email_message)
-
-# Données des produits (simulation base de données)
-PRODUCTS_DATA = {
-    'engines': [
-        {
-            'id': 1,
-            'name': 'Moteur Caterpillar C15',
-            'brand': 'caterpillar',
-            'category': 'Moteurs',
-            'description': 'Moteur diesel haute performance pour applications lourdes',
-            'price': 'Sur devis',
-            'image': '🔧'
-        },
-        {
-            'id': 2,
-            'name': 'Bloc Moteur Doosan',
-            'brand': 'doosan',
-            'category': 'Moteurs',
-            'description': 'Bloc moteur complet pour excavateurs Doosan',
-            'price': 'Sur devis',
-            'image': '⚙️'
-        },
-        {
-            'id': 3,
-            'name': 'Kit Moteur Volvo D13',
-            'brand': 'volvo',
-            'category': 'Moteurs',
-            'description': 'Kit de révision complète moteur Volvo D13',
-            'price': 'Sur devis',
-            'image': '🛠️'
-        }
-    ],
-    'hydraulics': [
-        {
-            'id': 4,
-            'name': 'Pompe Hydraulique CAT',
-            'brand': 'caterpillar',
-            'category': 'Hydraulique',
-            'description': 'Pompe hydraulique principale pour excavateurs',
-            'price': 'Sur devis',
-            'image': '💨'
-        },
-        {
-            'id': 5,
-            'name': 'Vérin Hydraulique Doosan',
-            'brand': 'doosan',
-            'category': 'Hydraulique',
-            'description': 'Vérin de flèche pour excavateurs Doosan',
-            'price': 'Sur devis',
-            'image': '🔧'
-        },
-        {
-            'id': 6,
-            'name': 'Distributeur Hydraulique Volvo',
-            'brand': 'volvo',
-            'category': 'Hydraulique',
-            'description': 'Distributeur hydraulique multi-voies Volvo',
-            'price': 'Sur devis',
-            'image': '⚡'
-        }
-    ]
-}
-
-COMPANY_INFO = {
-    'name': 'Fiklar',
-    'slogan': 'Votre Partenaire Industriel de Confiance',
-    'description': 'Spécialisée dans la vente de pièces détachées et équipements industriels pour les marques Caterpillar, Doosan et Volvo',
-    'location': 'Marrakech, Maroc',
-    'email': 'contact@fiklar.ma',
-    'phone': '+212 5 24 XX XX XX',
-    'whatsapp': '+212600000000',
-    'services': [
-        'Pièces détachées neuves',
-        'Équipements industriels',
-        'Livraison nationale et internationale',
-        'Support technique 24/7',
-        'Devis gratuits',
-        'Garantie qualité'
-    ],
-    'brands': ['Caterpillar', 'Doosan', 'Volvo'],
-    'years_experience': 10,
-    'clients_count': 500,
-    'products_count': 1000
-}
+def save_contact_to_log(sender_name: str, sender_email: str, message_body: str) -> None:
+    """Save contact form content to contact_logs.txt file."""
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_entry = f"[{timestamp}] Contact Form Submission\n"
+    log_entry += f"Name: {sender_name or 'Not provided'}\n"
+    log_entry += f"Email: {sender_email or 'Not provided'}\n"
+    log_entry += f"Message: {message_body}\n"
+    log_entry += "-" * 50 + "\n\n"
+    
+    try:
+        with open('contact_logs.txt', 'a', encoding='utf-8') as f:
+            f.write(log_entry)
+        print(f"✅ Contact saved to log: {sender_name} <{sender_email}>")
+    except Exception as e:
+        print(f"❌ Error writing to contact log: {e}")
+        raise
 
 @app.route('/')
 def accueil():
     """Page d'accueil"""
-    # Produits récents pour la homepage
     recent_products = []
     for category in PRODUCTS_DATA.values():
-        recent_products.extend(category[:2])  # 2 produits par catégorie
+        recent_products.extend(category[:2])
     
     return render_template('accueil.html', 
                          company=COMPANY_INFO,
@@ -162,7 +48,6 @@ def about():
 @app.route('/produits')
 def produits():
     """Page des produits"""
-    # Organiser tous les produits par catégorie
     all_products = {}
     for category, products in PRODUCTS_DATA.items():
         all_products[category] = products
@@ -171,11 +56,9 @@ def produits():
                          products=all_products,
                          company=COMPANY_INFO)
 
-# Routes pour les catégories individuelles
 @app.route('/categorie/<category_name>')
 def categorie_detail(category_name):
     """Page détaillée d'une catégorie de produits"""
-    # Définir les données pour chaque catégorie
     categories_data = {
         'carburant': {
             'title': 'Système de Carburant',
@@ -309,11 +192,9 @@ def categorie_detail(category_name):
         }
     }
     
-    # Récupérer les données de la catégorie
     category_data = categories_data.get(category_name)
     
     if not category_data:
-        # Si la catégorie n'existe pas, retourner une erreur 404
         return render_template('404.html'), 404
     
     return render_template('categorie.html', 
@@ -323,34 +204,27 @@ def categorie_detail(category_name):
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    """Redirige vers la section Contact sur la page d'accueil. Les envois POST sont journalisés."""
+    """Handle contact form submissions and save to contact_logs.txt"""
     if request.method == 'POST':
         name = request.form.get('name', '').strip()
         email = request.form.get('email', '').strip()
         message = request.form.get('message', '').strip()
-        log_entry = f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Contact via /contact -> {name} <{email}>: {message}\n"
-        if app.config['DEBUG']:
-            try:
-                with open('contact_logs.txt', 'a', encoding='utf-8') as f:
-                    f.write(log_entry)
-            except Exception as e:
-                print(f"Erreur écriture log contact: {e}")
-        # Validation minimale
+        
         if not message or not (email or name):
             flash("Veuillez fournir au moins votre nom ou e-mail et un message.", 'error')
         else:
             try:
-                send_contact_email(name, email, message)
-                flash('Merci pour votre message. Nous vous répondrons sous 24h.', 'success')
+                save_contact_to_log(name, email, message)
+                flash('Merci pour votre message. Nous avons bien reçu votre demande et vous répondrons rapidement.', 'success')
             except Exception as e:
-                # Ne divulgue pas les détails à l'utilisateur final
-                print(f"Erreur envoi email contact: {e}")
-                flash("Votre message a été reçu mais l'envoi d'email a échoué. Nous vous contacterons rapidement.", 'error')
+                print(f"Erreur sauvegarde contact: {e}")
+                flash("Une erreur est survenue lors de l'enregistrement de votre message. Veuillez réessayer.", 'error')
+    
     return redirect(url_for('accueil') + '#contact')
 
 @app.route('/api/products')
 def api_products():
-    """API simple pour récupérer les produits (pour futures intégrations)"""
+    """API simple pour récupérer les produits"""
     all_products = []
     for category, products in PRODUCTS_DATA.items():
         all_products.extend(products)
@@ -362,33 +236,28 @@ def api_brands():
     brands = set()
     for category in PRODUCTS_DATA.values():
         for product in category:
-            brands.add(product['brand'])
+            if 'brand' in product:
+                brands.add(product['brand'])
     return {'brands': list(brands)}
 
-# Gestion d'erreurs
 @app.errorhandler(404)
 def page_not_found(e):
-    """Page d'erreur 404 personnalisée"""
     return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    """Page d'erreur 500 personnalisée (utilise un template si présent)."""
     try:
         return render_template('500.html'), 500
     except Exception:
         return ("<h1 style='font-family:Arial;'>Erreur serveur (500)</h1>"
                 "<p>Un problème est survenu. Veuillez réessayer plus tard.</p>"), 500
 
-# Filtres template personnalisés
 @app.template_filter('capitalize_first')
 def capitalize_first_filter(text):
-    """Filtre pour capitaliser la première lettre"""
     return text.capitalize() if text else ''
 
 @app.template_filter('format_brand')
 def format_brand_filter(brand):
-    """Filtre pour formater les noms de marques"""
     brand_names = {
         'caterpillar': 'Caterpillar',
         'doosan': 'Doosan',
@@ -396,10 +265,8 @@ def format_brand_filter(brand):
     }
     return brand_names.get(brand.lower(), brand)
 
-# Context processor pour variables globales
 @app.context_processor
 def inject_globals():
-    """Injecte des variables globales dans tous les templates"""
     lang = request.args.get('lang', 'fr').lower()
     if lang not in ('fr', 'en'):
         lang = 'fr'
@@ -424,7 +291,7 @@ def inject_globals():
     typing_phrases = {
         'fr': [
             "Équipements Industriels Premium",
-            "Pièces Détachées d’Origine",
+            "Pièces Détachées d'Origine",
             "Solutions Pour Travaux Publics",
         ],
         'en': [
@@ -438,10 +305,8 @@ def inject_globals():
         kwargs.setdefault('lang', lang)
         return url_for(endpoint, **kwargs)
 
-    # Canonical URL builder (drop tracking/query noise)
     def canonical_url():
-        base = request.base_url
-        return base
+        return request.base_url
 
     return {
         'current_year': datetime.now().year,
@@ -456,7 +321,6 @@ def inject_globals():
         'canonical_url': canonical_url,
     }
 
-# Robots.txt
 @app.route('/robots.txt')
 def robots_txt():
     lines = [
@@ -466,14 +330,12 @@ def robots_txt():
     ]
     return ("\n".join(lines), 200, {"Content-Type": "text/plain; charset=utf-8"})
 
-# Simple sitemap.xml
 @app.route('/sitemap.xml')
 def sitemap_xml():
     pages = [
         url_for('accueil', _external=True),
         url_for('produits', _external=True),
     ]
-    # Categories known from categorie_detail data keys
     categories = ['carburant','electronique','refroidissement','turbo','composants','outils-sol','filtres','hydraulique','electrique','joints','silentblocs','transmission']
     for key in categories:
         pages.append(url_for('categorie_detail', category_name=key, _external=True))
@@ -486,21 +348,17 @@ def sitemap_xml():
     return (xml, 200, {"Content-Type": "application/xml; charset=utf-8"})
 
 if __name__ == '__main__':
-    # Créer le dossier templates s'il n'existe pas
     if not os.path.exists('templates'):
         os.makedirs('templates')
     
-    # Créer le dossier static s'il n'existe pas
     if not os.path.exists('static'):
         os.makedirs('static')
         os.makedirs('static/css')
         os.makedirs('static/js')
         os.makedirs('static/images')
     
-    # Lancer l'application
     print("🚀 Démarrage de l'application Fiklar...")
     print("📍 Accès: http://localhost:5000")
-    print("📧 Logs des contacts: contact_logs.txt")
+    print("📝 Contact forms will be saved to: contact_logs.txt")
 
-    # Use configured DEBUG flag
     app.run(debug=app.config['DEBUG'], host='0.0.0.0', port=5000)
